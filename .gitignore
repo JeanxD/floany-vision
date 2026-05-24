@@ -1,0 +1,43 @@
+# ===========================
+# FLOANY VISIÓN — .gitignore
+# ===========================
+
+# Entorno virtual Python
+venv/
+env/
+.env/
+.venv/
+
+# Base de datos local (se crea sola en Render)
+*.db
+*.sqlite
+*.sqlite3
+
+# Caché Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Variables de entorno (contraseñas, claves API)
+.env
+.env.local
+.env.production
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Archivos temporales
+*.tmp
+*.temp

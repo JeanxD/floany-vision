@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Floany Visión y Salud - Óptica profesional en San Juan de Lurigancho. Lentes de sol, de medida, protección UV400 y laboratorio certificado.">
+    <meta name="theme-color" content="#0c1f2c">
+    <title>Floany Visión y Salud | Óptica Profesional · SJL</title>
+
+    <!-- Fuentes premium -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+
+    <!-- Librerías CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet">
+
+    <style>
+        /* ============ TOKENS DE DISEÑO ============ */
+        :root {
+            --c-ink:       #0c1f2c;
+            --c-ink-2:     #1e3446;
+            --c-mist:      #f4f1ec;
+            --c-paper:     #fdfaf6;
+            --c-gold:      #c9a96e;
+            --c-gold-lt:   #e8d9be;
+            --c-ocean:     #1a6b8a;
+            --c-ocean-dk:  #0e4d64;
+            --c-sky:       #d0eaf5;
+            --c-text:      #1c2e3a;
+            --c-muted:     #5a7080;
+            --c-border:    rgba(12,31,44,0.10);
+            --c-card:      #ffffff;
+            --c-whatsapp:  #25D366;
+
+            --r-sm:  12px;
+            --r-md:  20px;
+            --r-lg:  32px;
+            --r-xl:  48px;
+
+            --sh-sm: 0 4px 24px rgba(12,31,44,0.06);
+            --sh-md: 0 12px 40px rgba(12,31,44,0.12);
+            --sh-lg: 0 24px 60px rgba(12,31,44,0.18);
+
+            --ff-display: 'Cormorant Garamond', serif;
+            --ff-body:    'DM Sans', sans-serif;
+
+            --nav-h: 68px;
+        }
+
+        body.dark {
+            --c-ink:    #f0ece5;
+            --c-mist:   #131f29;
+            --c-paper:  #0e1a23;
+            --c-text:   #dce8f0;
+            --c-muted:  #7fa0b3;
+            --c-border: rgba(255,255,255,0.09);
+            --c-card:   #162330;
+            --sh-sm:    0 4px 24px rgba(0,0,0,0.35);
+            --sh-md:    0 12px 40px rgba(0,0,0,0.45);
+        }
+
+        /* ============ RESET & BASE ============ */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--ff-body);
+            background: var(--c-paper);
+            color: var(--c-text);
+            font-size: 15px;
+            line-height: 1.65;
+            transition: background .35s, color .35s;
+            overflow-x: hidden;
+        }
+
+        /* ============ TIPOGRAFÍA ============ */
+        h1, h2, h3, h4 {
+            font-family: var(--ff-display);
+            font-weight: 700;
+            line-height: 1.18;
+            letter-spacing: -0.01em;
+        }
+
+        /* ============ NAVBAR ============ */
+        .navbar-floany {
+            background: rgba(253,250,246,0.88);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--c-border);
+            height: var(--nav-h);
+            z-index: 1050;
+            transition: background .3s;
+        }
+        body.dark .navbar-floany { background: rgba(14,26,35,0.88); }
+
+        .brand-wrap { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .brand-logo {
+            width: 42px; height: 42px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--c-ocean), var(--c-ink-2));
+            display: flex; align-items: center; justify-content: center;
+            color: var(--c-gold); font-family: var(--ff-display); font-size: 1.2rem; font-weight: 700;
+            flex-shrink: 0;
+        }
+        .brand-name {
+            font-family: var(--ff-display);
+            font-size: 1.35rem; font-weight: 700;
+            background: linear-gradient(135deg, var(--c-ocean) 0%, var(--c-ink-2) 100%);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+        }
+
+        .nav-link-f {
+            font-size: 0.88rem; font-weight: 500; color: var(--c-text) !important;
+            text-decoration: none; padding: 0.35rem 0.65rem !important;
+            border-radius: 8px; transition: color .2s, background .2s;
+            position: relative;
+        }
+        .nav-link-f::after {
+            content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 1.5px; background: var(--c-ocean);
+            transition: width .25s ease;
+        }
+        .nav-link-f:hover::after { width: 60%; }
+        .nav-link-f:hover { color: var(--c-ocean) !important; }
+
+        /* ============ BOTONES ============ */
+        .btn-ocean {
+            background: var(--c-ocean); color: #fff !important;
+            border: none; border-radius: 50px; padding: .55rem 1.5rem;
+            font-size: .88rem; font-weight: 500; letter-spacing: .02em;
+            transition: background .2s, transform .2s, box-shadow .2s;
+            display: inline-flex; align-items: center; gap: 7px;
+        }
+        .btn-ocean:hover { background: var(--c-ocean-dk); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(26,107,138,.28); }
+
+        .btn-ghost {
+            background: transparent; color: var(--c-ocean) !important;
+            border: 1.5px solid var(--c-ocean); border-radius: 50px;
+            padding: .52rem 1.4rem; font-size: .88rem; font-weight: 500;
+            transition: background .2s, color .2s, transform .2s;
+            display: inline-flex; align-items: center; gap: 7px;
+        }
+        .btn-ghost:hover { background: var(--c-ocean); color: #fff !important; transform: translateY(-2px); }
+
+        .btn-gold {
+            background: var(--c-gold); color: var(--c-ink) !important;
+            border: none; border-radius: 50px; padding: .55rem 1.5rem;
+            font-size: .88rem; font-weight: 600;
+            transition: background .2s, transform .2s;
+            display: inline-flex; align-items: center; gap: 7px;
+        }
+        .btn-gold:hover { background: #b8914f; transform: translateY(-2px); }
+
+        /* ============ HERO SWIPER ============ */
+        .hero-section { padding-top: 0; }
+        .heroSwiper { border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--sh-md); }
+        .hero-slide {
+            min-height: 420px;
+            padding: 3.5rem 3rem;
+            display: flex; align-items: center;
+            background: linear-gradient(135deg, var(--c-ink-2) 0%, #0a3d57 50%, var(--c-ocean-dk) 100%);
+            position: relative; overflow: hidden;
+        }
+        .hero-slide::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 80% 50%, rgba(201,169,110,.18) 0%, transparent 60%);
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(201,169,110,.18); border: 1px solid rgba(201,169,110,.35);
+            color: var(--c-gold); font-size: .78rem; font-weight: 500; letter-spacing: .08em;
+            text-transform: uppercase; border-radius: 50px; padding: .3rem .9rem;
+            margin-bottom: 1rem;
+        }
+        .hero-title {
+            font-family: var(--ff-display); font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700; color: #fff; line-height: 1.12; margin-bottom: .9rem;
+        }
+        .hero-sub { color: rgba(255,255,255,.72); font-size: .95rem; margin-bottom: 1.8rem; max-width: 420px; }
+        .hero-img-wrap {
+            position: relative; text-align: right;
+        }
+        .hero-img-wrap img {
+            max-height: 320px; width: 100%; object-fit: cover;
+            border-radius: var(--r-md); opacity: .9;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,.4));
+            transition: transform .4s;
+        }
+        .heroSwiper:hover .hero-img-wrap img { transform: scale(1.03) rotate(-1deg); }
+
+        /* ============ SECCIÓN MARCAS ============ */
+        .brand-strip {
+            display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+            gap: 1.5rem 3rem; padding: 2rem 0;
+        }
+        .brand-item {
+            opacity: .45; filter: grayscale(1);
+            transition: opacity .2s, filter .2s; cursor: default;
+            font-family: var(--ff-display); font-size: 1.1rem; font-weight: 700;
+            letter-spacing: .18em; text-transform: uppercase; color: var(--c-text);
+        }
+        .brand-item img { max-height: 28px; object-fit: contain; }
+        .brand-item:hover { opacity: 1; filter: none; }
+
+        /* ============ CATEGORÍAS BANNER ============ */
+        .cat-banner {
+            border-radius: var(--r-lg); overflow: hidden;
+            position: relative; height: 260px; cursor: pointer;
+            box-shadow: var(--sh-sm);
+        }
+        .cat-banner img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform .5s ease; display: block;
+        }
+        .cat-banner:hover img { transform: scale(1.06); }
+        .cat-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(12,31,44,.9) 0%, rgba(12,31,44,.2) 60%, transparent 100%);
+            display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 1.8rem;
+        }
+        .cat-overlay .badge-cat {
+            display: inline-block; background: var(--c-gold); color: var(--c-ink);
+            font-size: .72rem; font-weight: 600; letter-spacing: .08em;
+            text-transform: uppercase; border-radius: 50px; padding: .25rem .8rem; margin-bottom: .6rem;
+        }
+        .cat-overlay h4 { font-family: var(--ff-display); color: #fff; font-size: 1.55rem; margin-bottom: .3rem; }
+        .cat-overlay p { color: rgba(255,255,255,.65); font-size: .83rem; margin: 0; }
+        .cat-overlay .cat-arrow {
+            position: absolute; top: 1.2rem; right: 1.2rem;
+            width: 36px; height: 36px; border-radius: 50%;
+            background: rgba(255,255,255,.15); backdrop-filter: blur(6px);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 1rem; transition: background .2s;
+        }
+        .cat-banner:hover .cat-arrow { background: var(--c-gold); color: var(--c-ink); }
+
+        /* ============ CATÁLOGO ============ */
+        .section-eyebrow {
+            font-size: .75rem; font-weight: 600; letter-spacing: .14em;
+            text-transform: uppercase; color: var(--c-ocean);
+            display: block; margin-bottom: .4rem;
+        }
+        .section-title { font-family: var(--ff-display); font-size: clamp(1.6rem, 3vw, 2.2rem); }
+
+        .filter-pill {
+            border: 1.5px solid var(--c-border); background: transparent;
+            color: var(--c-muted); padding: .42rem 1.2rem;
+            border-radius: 50px; font-size: .82rem; font-weight: 500;
+            cursor: pointer; transition: all .2s;
+        }
+        .filter-pill:hover { border-color: var(--c-ocean); color: var(--c-ocean); }
+        .filter-pill.active {
+            background: var(--c-ocean); border-color: var(--c-ocean);
+            color: #fff; box-shadow: 0 4px 14px rgba(26,107,138,.25);
+        }
+
+        /* Card de producto */
+        .prod-card {
+            background: var(--c-card);
+            border: 1px solid var(--c-border);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            box-shadow: var(--sh-sm);
+            transition: transform .28s ease, box-shadow .28s ease;
+            display: flex; flex-direction: column;
+            height: 100%;
+        }
+        .prod-card:hover { transform: translateY(-6px); box-shadow: var(--sh-md); }
+
+        .prod-img-zone {
+            aspect-ratio: 4/3;
+            background: var(--c-mist);
+            overflow: hidden; cursor: pointer;
+            position: relative;
+        }
+        .prod-img-zone img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform .4s ease;
+        }
+        .prod-card:hover .prod-img-zone img { transform: scale(1.07); }
+
+        .prod-badge-cat {
+            position: absolute; top: 12px; left: 12px;
+            background: rgba(12,31,44,.75); backdrop-filter: blur(6px);
+            color: var(--c-gold); font-size: .7rem; font-weight: 600; letter-spacing: .06em;
+            text-transform: uppercase; border-radius: 50px; padding: .22rem .75rem;
+        }
+        .prod-badge-stock {
+            position: absolute; top: 12px; right: 12px;
+            font-size: .68rem; font-weight: 600; border-radius: 50px; padding: .22rem .75rem;
+        }
+
+        .prod-body { padding: 1.2rem; flex: 1; display: flex; flex-direction: column; }
+        .prod-name {
+            font-family: var(--ff-display); font-size: 1.15rem; font-weight: 700;
+            margin-bottom: .2rem; cursor: pointer; color: var(--c-text);
+            transition: color .2s;
+        }
+        .prod-name:hover { color: var(--c-ocean); }
+        .prod-desc { font-size: .8rem; color: var(--c-muted); flex: 1; margin-bottom: .9rem; }
+        .prod-price {
+            font-family: var(--ff-display); font-size: 1.6rem; font-weight: 700;
+            color: var(--c-ocean); line-height: 1;
+        }
+        .prod-price-label { font-size: .72rem; color: var(--c-muted); font-family: var(--ff-body); font-weight: 400; }
+
+        .prod-footer {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: .85rem 1.2rem;
+            border-top: 1px solid var(--c-border);
+            background: rgba(12,31,44,.02);
+            gap: 8px;
+        }
+        body.dark .prod-footer { background: rgba(255,255,255,.03); }
+
+        .btn-add {
+            flex: 1; background: var(--c-ocean); color: #fff; border: none;
+            border-radius: 50px; padding: .5rem; font-size: .8rem; font-weight: 500;
+            transition: background .2s, transform .15s;
+            display: flex; align-items: center; justify-content: center; gap: 5px;
+        }
+        .btn-add:hover { background: var(--c-ocean-dk); transform: scale(1.03); }
+        .btn-add:disabled { background: var(--c-muted); cursor: not-allowed; transform: none; }
+
+        .btn-detail {
+            width: 38px; height: 38px; border-radius: 50%;
+            background: var(--c-mist); border: 1px solid var(--c-border);
+            color: var(--c-text); display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; transition: background .2s, color .2s; flex-shrink: 0;
+            cursor: pointer;
+        }
+        .btn-detail:hover { background: var(--c-ocean); color: #fff; border-color: var(--c-ocean); }
+        body.dark .btn-detail { background: rgba(255,255,255,.08); }
+
+        /* ============ PROBADOR DE ROSTRO ============ */
+        .face-card {
+            background: var(--c-card); border: 1.5px solid var(--c-border);
+            border-radius: var(--r-md); padding: 1.8rem 1.5rem;
+            text-align: center; cursor: pointer;
+            box-shadow: var(--sh-sm);
+            transition: all .25s ease;
+        }
+        .face-card:hover, .face-card.active {
+            border-color: var(--c-ocean); background: rgba(26,107,138,.05);
+            transform: translateY(-4px); box-shadow: var(--sh-md);
+        }
+        .face-icon { font-size: 2.4rem; color: var(--c-ocean); margin-bottom: .75rem; display: block; }
+        .face-title { font-family: var(--ff-display); font-size: 1.2rem; font-weight: 700; }
+        .face-sub { font-size: .8rem; color: var(--c-muted); margin-top: .35rem; }
+
+        /* ============ SUBIR RECETA ============ */
+        .upload-zone {
+            border: 2px dashed var(--c-gold); border-radius: var(--r-lg);
+            padding: 3rem 2rem; text-align: center; cursor: pointer;
+            background: var(--c-paper); transition: background .2s, border-color .2s;
+        }
+        .upload-zone:hover { background: var(--c-mist); border-color: var(--c-ocean); }
+        .upload-icon { font-size: 3rem; color: var(--c-gold); }
+
+        /* ============ TESTIMONIOS ============ */
+        .testi-card {
+            background: var(--c-card); border: 1px solid var(--c-border);
+            border-radius: var(--r-md); padding: 1.6rem;
+            box-shadow: var(--sh-sm); height: 100%;
+            position: relative;
+        }
+        .testi-card::before {
+            content: '\201C'; font-family: var(--ff-display); font-size: 5rem;
+            color: var(--c-gold-lt); position: absolute; top: .6rem; right: 1.2rem;
+            line-height: 1; pointer-events: none;
+        }
+        .star-row { color: var(--c-gold); font-size: .85rem; margin-bottom: .75rem; }
+        .testi-text { font-size: .88rem; color: var(--c-muted); font-style: italic; margin-bottom: 1rem; }
+        .testi-author { font-size: .82rem; font-weight: 600; color: var(--c-text); }
+
+        /* ============ NOSOTROS ============ */
+        .about-img {
+            border-radius: var(--r-lg); width: 100%;
+            object-fit: cover; box-shadow: var(--sh-md);
+        }
+        .about-feat {
+            display: flex; align-items: center; gap: .75rem;
+            background: var(--c-mist); border-radius: var(--r-sm);
+            padding: .75rem 1rem; margin-bottom: .6rem;
+            font-size: .85rem; color: var(--c-text);
+        }
+        .about-feat i { color: var(--c-ocean); font-size: 1.1rem; }
+
+        /* ============ UBICACIÓN ============ */
+        .map-card { border-radius: var(--r-md); overflow: hidden; box-shadow: var(--sh-sm); border: 1px solid var(--c-border); }
+        .info-card {
+            background: var(--c-card); border: 1px solid var(--c-border);
+            border-radius: var(--r-md); padding: 1.4rem;
+            box-shadow: var(--sh-sm); height: 100%;
+        }
+        .live-clock {
+            font-family: var(--ff-display); font-size: 2.5rem; font-weight: 700;
+            color: var(--c-ocean); line-height: 1;
+        }
+        .info-row { display: flex; align-items: flex-start; gap: .75rem; margin-bottom: .85rem; font-size: .88rem; }
+        .info-row i { color: var(--c-ocean); font-size: 1.1rem; margin-top: .1rem; }
+
+        /* ============ DIVIDER ELEGANTE ============ */
+        .divider-gold {
+            display: flex; align-items: center; gap: 1rem; margin: .5rem 0;
+        }
+        .divider-gold::before, .divider-gold::after {
+            content: ''; flex: 1; height: 1px; background: var(--c-border);
+        }
+        .divider-gold span { color: var(--c-gold); font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; }
+
+        /* ============ FOOTER ============ */
+        .footer-wrap {
+            background: var(--c-ink-2); color: rgba(255,255,255,.7);
+            padding: 4rem 0 2rem;
+        }
+        body.dark .footer-wrap { background: #080f14; }
+        .footer-title { color: #fff; font-family: var(--ff-display); font-size: 1.1rem; margin-bottom: 1.1rem; }
+        .footer-link { color: rgba(255,255,255,.6); text-decoration: none; font-size: .87rem; display: block; margin-bottom: .5rem; transition: color .2s; }
+        .footer-link:hover { color: var(--c-gold); }
+        .footer-divider { border-color: rgba(255,255,255,.1); margin: 2.5rem 0 1.5rem; }
+
+        /* ============ MODAL CARRITO ============ */
+        .modal-floany .modal-content {
+            background: var(--c-paper); border: 1px solid var(--c-border);
+            border-radius: var(--r-lg); overflow: hidden;
+        }
+        body.dark .modal-floany .modal-content { background: var(--c-card); }
+        .modal-floany .modal-header { border-bottom: 1px solid var(--c-border); padding: 1.2rem 1.5rem; }
+        .modal-floany .modal-body { padding: 1.4rem 1.5rem; }
+
+        .cart-item {
+            display: flex; align-items: center; gap: .85rem;
+            padding: .75rem 0; border-bottom: 1px solid var(--c-border);
+            animation: fadeSlide .25s ease;
+        }
+        .cart-item:last-child { border-bottom: none; }
+        @keyframes fadeSlide { from { opacity:0; transform: translateX(10px); } to { opacity:1; transform: none; } }
+
+        .cart-item-name { font-weight: 500; font-size: .9rem; color: var(--c-text); }
+        .cart-item-price { font-family: var(--ff-display); font-size: 1.05rem; color: var(--c-ocean); font-weight: 700; }
+        .cart-qty-badge {
+            min-width: 26px; height: 26px; border-radius: 50%;
+            background: var(--c-sky); color: var(--c-ocean); font-size: .78rem; font-weight: 700;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        body.dark .cart-qty-badge { background: rgba(26,107,138,.2); }
+        .cart-remove {
+            margin-left: auto; color: var(--c-muted); background: none; border: none;
+            font-size: 1.1rem; cursor: pointer; transition: color .2s;
+            flex-shrink: 0;
+        }
+        .cart-remove:hover { color: #e53e3e; }
+
+        .cart-total-bar {
+            background: var(--c-mist); border-radius: var(--r-sm);
+            padding: .9rem 1.1rem; display: flex; justify-content: space-between;
+            align-items: center; margin: 1rem 0;
+        }
+        body.dark .cart-total-bar { background: rgba(255,255,255,.05); }
+        .cart-total-label { font-size: .85rem; color: var(--c-muted); }
+        .cart-total-num { font-family: var(--ff-display); font-size: 1.6rem; font-weight: 700; color: var(--c-ocean); }
+
+        /* ============ MODAL PRODUCTO DETALLE ============ */
+        .det-img-wrap {
+            border-radius: var(--r-md); overflow: hidden; background: var(--c-mist);
+            aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center;
+        }
+        .det-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+        .spec-chip {
+            background: var(--c-mist); border-radius: var(--r-sm); padding: .55rem .8rem;
+            font-size: .8rem; display: flex; align-items: center; gap: .5rem;
+        }
+        body.dark .spec-chip { background: rgba(255,255,255,.06); }
+        .spec-chip i { color: var(--c-ocean); }
+        .spec-chip strong { color: var(--c-text); }
+
+        /* ============ CHATBOT ============ */
+        #botContainer { position: fixed; bottom: 24px; right: 24px; z-index: 2500; }
+        .bot-toggle {
+            width: 56px; height: 56px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--c-ocean), var(--c-ocean-dk));
+            color: #fff; border: none; cursor: pointer; font-size: 1.35rem;
+            box-shadow: 0 8px 24px rgba(26,107,138,.45);
+            display: flex; align-items: center; justify-content: center;
+            transition: transform .2s;
+        }
+        .bot-toggle:hover { transform: scale(1.08); }
+
+        .bot-panel {
+            position: absolute; bottom: 68px; right: 0;
+            width: 340px; max-width: 92vw; height: 450px;
+            background: var(--c-card); border: 1px solid var(--c-border);
+            border-radius: var(--r-lg); overflow: hidden;
+            box-shadow: var(--sh-lg); display: flex; flex-direction: column;
+            transform: translateY(20px) scale(.96); opacity: 0; visibility: hidden;
+            transition: all .3s cubic-bezier(.34,1.56,.64,1);
+        }
+        .bot-panel.open { transform: none; opacity: 1; visibility: visible; }
+
+        .bot-head {
+            background: linear-gradient(135deg, var(--c-ocean), var(--c-ocean-dk));
+            color: #fff; padding: 1rem 1.2rem;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .bot-head-info { display: flex; align-items: center; gap: .6rem; }
+        .bot-avatar { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+        .bot-name { font-weight: 600; font-size: .9rem; }
+        .bot-status { font-size: .72rem; opacity: .75; }
+        .bot-close { background: none; border: none; color: rgba(255,255,255,.7); cursor: pointer; font-size: 1.1rem; transition: color .2s; }
+        .bot-close:hover { color: #fff; }
+
+        .bot-msgs {
+            flex: 1; padding: 1rem; overflow-y: auto;
+            display: flex; flex-direction: column; gap: .75rem;
+            scroll-behavior: smooth;
+        }
+        .bot-msgs::-webkit-scrollbar { width: 4px; }
+        .bot-msgs::-webkit-scrollbar-track { background: transparent; }
+        .bot-msgs::-webkit-scrollbar-thumb { background: var(--c-border); border-radius: 4px; }
+
+        .bbl { padding: .65rem .95rem; border-radius: 16px; max-width: 88%; font-size: .86rem; line-height: 1.5; }
+        .bbl-bot { background: var(--c-mist); color: var(--c-text); align-self: flex-start; border-bottom-left-radius: 4px; }
+        body.dark .bbl-bot { background: rgba(255,255,255,.07); }
+        .bbl-user { background: var(--c-ocean); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+
+        .bot-opts { display: flex; flex-direction: column; gap: .45rem; margin-top: .25rem; }
+        .bot-opt {
+            background: var(--c-paper); border: 1px solid var(--c-border);
+            color: var(--c-text); padding: .55rem .9rem; border-radius: 10px;
+            font-size: .83rem; font-weight: 500; text-align: left;
+            cursor: pointer; transition: all .18s; width: 100%;
+        }
+        .bot-opt:hover { background: var(--c-ocean); color: #fff; border-color: var(--c-ocean); }
+        body.dark .bot-opt { background: rgba(255,255,255,.05); }
+
+        /* ============ TOAST ============ */
+        .toast-floany {
+            position: fixed; bottom: 90px; left: 24px; z-index: 9999;
+            background: var(--c-ink-2); color: #fff;
+            padding: .7rem 1.2rem; border-radius: var(--r-sm);
+            font-size: .86rem; font-weight: 500;
+            box-shadow: var(--sh-md);
+            display: flex; align-items: center; gap: .6rem;
+            transform: translateY(10px); opacity: 0;
+            transition: all .3s ease; pointer-events: none;
+        }
+        .toast-floany.show { transform: none; opacity: 1; }
+
+        /* ============ DARK MODE PATCHES ============ */
+        body.dark .form-control, body.dark .form-select {
+            background: var(--c-card); color: var(--c-text); border-color: var(--c-border);
+        }
+        body.dark .form-control::placeholder { color: var(--c-muted); }
+        body.dark .modal-content { background: var(--c-card) !important; color: var(--c-text); }
+        body.dark .btn-close { filter: invert(1); }
+        body.dark .about-feat, body.dark .upload-zone { background: rgba(255,255,255,.04); }
+        body.dark .spec-chip { color: var(--c-text); }
+
+        /* ============ UTILIDADES ============ */
+        .text-ocean { color: var(--c-ocean); }
+        .text-gold  { color: var(--c-gold); }
+        .gap-3r { gap: .75rem; }
+
+        /* ============ ANIMACIONES DE ENTRADA ============ */
+        @keyframes fadeUp { from { opacity:0; transform: translateY(28px); } to { opacity:1; transform: none; } }
+        .anim-up { animation: fadeUp .55s ease both; }
+        .anim-up-d1 { animation-delay: .1s; }
+        .anim-up-d2 { animation-delay: .2s; }
+        .anim-up-d3 { animation-delay: .3s; }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            .hero-slide { padding: 2rem 1.4rem; min-height: 340px; }
+            .hero-img-wrap img { max-height: 180px; }
+        }
+
+        /* SWIPER custom */
+        .swiper-button-next, .swiper-button-prev { color: var(--c-gold) !important; }
+        .swiper-pagination-bullet-active { background: var(--c-gold) !important; }
+        .swiper-button-next::after, .swiper-button-prev::after { font-size: 1.1rem !important; font-weight: 700; }
+
+        /* WAPP float BTN */
+        .wapp-float {
+            position: fixed; bottom: 90px; right: 24px; z-index: 2400;
+            width: 50px; height: 50px; border-radius: 50%;
+            background: var(--c-whatsapp); color: #fff; font-size: 1.5rem;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 20px rgba(37,211,102,.4);
+            text-decoration: none; transition: transform .2s;
+        }
+        .wapp-float:hover { transform: scale(1.1); color: #fff; }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════ -->
+<nav class="navbar navbar-expand-lg navbar-floany sticky-top">
+    <div class="container">
+        <a class="brand-wrap" href="#">
+            <div class="brand-logo">F</div>
+            <span class="brand-name">Floany Visión</span>
+        </a>
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMain">
+            <ul class="navbar-nav mx-auto gap-1 mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link-f" href="#inicio">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link-f" href="#categorias">Categorías</a></li>
+                <li class="nav-item"><a class="nav-link-f" href="#catalogo">Catálogo</a></li>
+                <li class="nav-item"><a class="nav-link-f" href="#probador">Probador</a></li>
+                <li class="nav-item"><a class="nav-link-f" href="#receta">Receta</a></li>
+                <li class="nav-item"><a class="nav-link-f" href="#nosotros">Nosotros</a></li>
+                <li class="nav-item"><a class="nav-link-f" href="#ubicacion">Ubicación</a></li>
+            </ul>
+            <div class="d-flex align-items-center gap-2">
+                <button id="themeBtn" class="btn-detail" title="Cambiar tema">
+                    <i class="bi bi-moon-stars" id="themeIcon"></i>
+                </button>
+                <button class="btn-detail position-relative" id="cartBtn" data-bs-toggle="modal" data-bs-target="#cartModal" title="Ver carrito">
+                    <i class="bi bi-bag-heart"></i>
+                    <span id="cartBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                          style="background:var(--c-gold); color:var(--c-ink); font-size:.62rem;">0</span>
+                </button>
+                <button class="btn-ghost" data-bs-toggle="modal" data-bs-target="#authModal" id="authBtn">
+                    <i class="bi bi-person-circle"></i>
+                    <span id="authBtnTxt">Ingresar</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ══════════════════════════════════════
+     HERO CAROUSEL
+══════════════════════════════════════ -->
+<section id="inicio" class="container-lg mt-4 mb-5">
+    <div class="swiper heroSwiper">
+        <div class="swiper-wrapper" id="heroSlides"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     MAIN CONTENT
+══════════════════════════════════════ -->
+<main class="container">
+
+    <!-- MARCAS -->
+    <section class="mb-5">
+        <div class="divider-gold"><span>Marcas que trabajamos</span></div>
+        <div class="brand-strip">
+            <span class="brand-item">Ray-Ban</span>
+            <span class="brand-item">Oakley</span>
+            <span class="brand-item">Vogue</span>
+            <span class="brand-item">Arnette</span>
+            <span class="brand-item">Carrera</span>
+        </div>
+    </section>
+
+    <!-- CATEGORÍAS BANNER -->
+    <section id="categorias" class="mb-5">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="cat-banner" onclick="aplicarFiltro('Gafas de Sol')">
+                    <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80" alt="Gafas de Sol">
+                    <div class="cat-overlay">
+                        <div class="cat-arrow"><i class="bi bi-arrow-right"></i></div>
+                        <span class="badge-cat">Protección UV400</span>
+                        <h4>Gafas de Sol Premium</h4>
+                        <p>Polarizadas y antirreflejo de última temporada</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="cat-banner" onclick="aplicarFiltro('Lentes de Medida')">
+                    <img src="https://images.unsplash.com/photo-1574258495973-f010dfbb5371?auto=format&fit=crop&w=800&q=80" alt="Lentes de Medida">
+                    <div class="cat-overlay">
+                        <div class="cat-arrow"><i class="bi bi-arrow-right"></i></div>
+                        <span class="badge-cat">Salud Visual</span>
+                        <h4>Monturas de Medida</h4>
+                        <p>Cristales antirreflejo y filtro Blue Defense digital</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATÁLOGO -->
+    <section id="catalogo" class="mb-5">
+        <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+            <div>
+                <span class="section-eyebrow">Catálogo Oficial</span>
+                <h2 class="section-title">Nuestros Productos</h2>
+            </div>
+            <input type="search" id="searchInput" class="form-control rounded-pill px-3" placeholder="&#xF52A; Buscar modelo..." style="max-width:230px; font-size:.88rem;">
+        </div>
+        <div class="d-flex flex-wrap gap-2 mb-4" id="filterGroup">
+            <button class="filter-pill active" data-filter="Todos">Todos</button>
+            <button class="filter-pill" data-filter="Gafas de Sol">Gafas de Sol</button>
+            <button class="filter-pill" data-filter="Lentes de Medida">Lentes de Medida</button>
+        </div>
+        <div class="row g-4" id="productGrid">
+            <!-- JS dinámico -->
+        </div>
+        <div id="emptyState" class="text-center py-5 d-none">
+            <i class="bi bi-search text-muted" style="font-size:2.5rem;"></i>
+            <p class="text-muted mt-3">No encontramos productos que coincidan.</p>
+        </div>
+    </section>
+
+    <!-- PROBADOR VIRTUAL -->
+    <section id="probador" class="my-5 py-5" style="border-top:1px solid var(--c-border); border-bottom:1px solid var(--c-border);">
+        <div class="text-center mb-4">
+            <span class="section-eyebrow">Herramienta Visual</span>
+            <h2 class="section-title">¿Qué montura te queda mejor?</h2>
+            <p class="text-muted mt-2" style="max-width:480px; margin: .5rem auto 0;">Selecciona la forma de tu rostro y te recomendaremos el estilo ideal de montura.</p>
+        </div>
+        <div class="row g-3 justify-content-center">
+            <div class="col-md-4">
+                <div class="face-card anim-up anim-up-d1" onclick="filtrarRostro('Redondo', this)">
+                    <i class="bi bi-circle face-icon"></i>
+                    <div class="face-title">Rostro Redondo</div>
+                    <div class="face-sub">Recomendamos marcos cuadrados o rectangulares para estructurar y alargar visualmente el rostro.</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="face-card anim-up anim-up-d2" onclick="filtrarRostro('Cuadrado', this)">
+                    <i class="bi bi-square face-icon"></i>
+                    <div class="face-title">Rostro Cuadrado</div>
+                    <div class="face-sub">Sugerimos marcos redondos u ovalados para suavizar los ángulos y equilibrar las facciones.</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="face-card anim-up anim-up-d3" onclick="filtrarRostro('Ovalado', this)">
+                    <i class="bi bi-egg face-icon"></i>
+                    <div class="face-title">Rostro Ovalado</div>
+                    <div class="face-sub">¡El más versátil! Cualquier tipo de montura geométrica o clásica lucirá perfecto en ti.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SUBIR RECETA -->
+    <section id="receta" class="my-5 py-2">
+        <div class="row align-items-center g-4">
+            <div class="col-md-6">
+                <span class="section-eyebrow">Laboratorio Propio</span>
+                <h3 class="section-title mb-3">¿Tienes receta médica?</h3>
+                <p class="text-muted small lh-lg">Sube tu prescripción y nuestro equipo de ópticos la procesa en nuestro laboratorio certificado. Te enviamos la cotización exacta por WhatsApp en minutos.</p>
+                <ul class="list-unstyled mt-3">
+                    <li class="about-feat"><i class="bi bi-check-circle-fill"></i> Aceptamos PDF, JPG o PNG</li>
+                    <li class="about-feat"><i class="bi bi-check-circle-fill"></i> Respuesta en menos de 1 hora</li>
+                    <li class="about-feat"><i class="bi bi-check-circle-fill"></i> Cristales monofocales, bifocales y progresivos</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <input type="file" id="recetaFile" accept="image/*,.pdf" class="d-none">
+                <div class="upload-zone" id="uploadZone">
+                    <i class="bi bi-cloud-arrow-up upload-icon d-block mb-3"></i>
+                    <div class="fw-semibold mb-1" id="uploadLabel">Arrastra tu receta aquí o haz clic</div>
+                    <div class="text-muted" style="font-size:.8rem;">PDF, JPG, PNG — máx. 10MB</div>
+                    <div class="progress mt-3" style="height:5px; display:none;" id="uploadProgress">
+                        <div class="progress-bar bg-warning progress-bar-animated" style="width:100%;"></div>
+                    </div>
+                    <span class="badge mt-2 d-none" id="uploadBadge" style="background:var(--c-gold); color:var(--c-ink); font-size:.8rem;">
+                        <i class="bi bi-check-circle me-1"></i>Receta cargada
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIOS -->
+    <section class="my-5 py-2">
+        <div class="text-center mb-4">
+            <span class="section-eyebrow">Nuestros Clientes</span>
+            <h2 class="section-title">Lo que dicen de Floany</h2>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="testi-card">
+                    <div class="star-row">★★★★★</div>
+                    <p class="testi-text">"Excelente atención en San Juan de Lurigancho. Subí mi receta médica, me cotizaron súper rápido por WhatsApp y el producto superó mis expectativas."</p>
+                    <div class="testi-author">Carlos Mendoza · Cliente verificado</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testi-card">
+                    <div class="star-row">★★★★★</div>
+                    <p class="testi-text">"Mis gafas de sol polarizadas quedaron increíbles. La web se ve muy profesional y el proceso de pedido es súper fácil y rápido."</p>
+                    <div class="testi-author">Ana Lucía Solano · Cliente verificado</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testi-card">
+                    <div class="star-row">★★★★★</div>
+                    <p class="testi-text">"Muy buena opción de pago contraentrega. Compré una montura de acetato para computadora y llegó el mismo día. ¡Totalmente recomendado!"</p>
+                    <div class="testi-author">Jorge Luis Torres · Cliente verificado</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOBRE NOSOTROS -->
+    <section id="nosotros" class="my-5 py-5" style="border-top: 1px solid var(--c-border);">
+        <div class="row align-items-center g-5">
+            <div class="col-md-5">
+                <img class="about-img" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=700&q=80" alt="Equipo Floany Visión">
+            </div>
+            <div class="col-md-7">
+                <span class="section-eyebrow">Quiénes Somos</span>
+                <h2 class="section-title mb-3">Comprometidos con tu salud visual</h2>
+                <p class="text-muted small lh-lg mb-3">En <strong>Floany Visión y Salud</strong> combinamos tecnología óptica de vanguardia con atención personalizada. Nuestro laboratorio propio en San Juan de Lurigancho fabrica cada lente bajo los estándares más exigentes de la industria oftálmica peruana.</p>
+                <p class="text-muted small lh-lg mb-4">Trabajamos con acetato flexible, aleaciones ultraligeras y TR90. Todos nuestros cristales incluyen antirreflejo hidrofóbico, filtro Blue Defense y protección UV400 certificada.</p>
+                <div class="mb-4">
+                    <div class="about-feat"><i class="bi bi-shield-check"></i><span>Garantía de laboratorio en todos los productos</span></div>
+                    <div class="about-feat"><i class="bi bi-patch-check"></i><span>Tratamientos ópticos certificados de última tecnología</span></div>
+                    <div class="about-feat"><i class="bi bi-truck"></i><span>Delivery el mismo día en San Juan de Lurigancho</span></div>
+                </div>
+                <a href="https://wa.me/51912796290?text=Hola%20Floany%20Visión,%20deseo%20agendar%20una%20consulta." target="_blank" class="btn-ocean">
+                    <i class="bi bi-calendar-check"></i> Agendar Consulta Gratuita
+                </a>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- ══════════════════════════════════════
+     UBICACIÓN
+══════════════════════════════════════ -->
+<section id="ubicacion" class="container my-5">
+    <div class="text-center mb-4">
+        <span class="section-eyebrow">Encuéntranos</span>
+        <h2 class="section-title">Nuestra Sede</h2>
+    </div>
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <div class="map-card" style="height:320px;">
+                <iframe class="w-100 h-100" style="border:0;" loading="lazy"
+                    src="https://maps.google.com/maps?q=Av.%20Las%20Flores%20de%20Primavera%201060,%20San%20Juan%20de%20Lurigancho&t=&z=15&ie=UTF8&iwloc=&output=embed">
+                </iframe>
+            </div>
+        </div>
+        <div class="col-lg-5 d-flex flex-column gap-3">
+            <div class="info-card">
+                <h6 class="fw-semibold mb-3 text-muted" style="font-size:.78rem; letter-spacing:.1em; text-transform:uppercase;">Reloj en Vivo</h6>
+                <div class="live-clock" id="liveClock">00:00:00</div>
+                <div class="text-muted mt-1" id="liveDate" style="font-size:.85rem;"></div>
+            </div>
+            <div class="info-card">
+                <h6 class="fw-semibold mb-3 text-muted" style="font-size:.78rem; letter-spacing:.1em; text-transform:uppercase;">Información de Contacto</h6>
+                <div class="info-row"><i class="bi bi-geo-alt-fill"></i><span>Av. Las Flores de Primavera 1060, San Juan de Lurigancho, Lima</span></div>
+                <div class="info-row"><i class="bi bi-clock-fill"></i><span>Lun – Sáb: 9:00 am – 8:00 pm</span></div>
+                <div class="info-row"><i class="bi bi-whatsapp" style="color:var(--c-whatsapp);"></i><span>+51 912 796 290</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<footer class="footer-wrap mt-5">
+    <div class="container">
+        <div class="row gy-4">
+            <div class="col-lg-4">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <div class="brand-logo" style="width:36px;height:36px;font-size:1rem;">F</div>
+                    <span style="color:#fff;font-family:var(--ff-display);font-size:1.15rem;font-weight:700;">Floany Visión y Salud</span>
+                </div>
+                <p style="font-size:.87rem; color:rgba(255,255,255,.55);">Laboratorio óptico certificado en Lima. Soluciones de alta precisión visual para proteger tus ojos cada día.</p>
+            </div>
+            <div class="col-lg-4 col-6">
+                <div class="footer-title">Navegación</div>
+                <a href="#catalogo" class="footer-link">Catálogo de Productos</a>
+                <a href="#receta" class="footer-link">Subir Receta Médica</a>
+                <a href="#probador" class="footer-link">Probador Virtual</a>
+                <a href="#nosotros" class="footer-link">Quiénes Somos</a>
+            </div>
+            <div class="col-lg-4 col-6">
+                <div class="footer-title">Contacto</div>
+                <p style="font-size:.85rem; color:rgba(255,255,255,.55); line-height:1.8;">
+                    Av. Las Flores de Primavera 1060<br>
+                    San Juan de Lurigancho, Lima<br>
+                    <a href="https://wa.me/51912796290" style="color:var(--c-gold);">+51 912 796 290</a>
+                </p>
+            </div>
+        </div>
+        <hr class="footer-divider">
+        <div class="text-center" style="font-size:.8rem; color:rgba(255,255,255,.35);">
+            © 2026 Floany Visión y Salud · Todos los derechos reservados
+        </div>
+    </div>
+</footer>
+
+<!-- ══════════════════════════════════════
+     MODAL CARRITO
+══════════════════════════════════════ -->
+<div class="modal fade modal-floany" id="cartModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" style="font-family:var(--ff-display);font-size:1.3rem;">
+                    <i class="bi bi-bag-heart text-ocean me-2"></i>Tu Pedido
+                </h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Items -->
+                <div id="cartItems" style="max-height:200px; overflow-y:auto; margin-bottom:.5rem;"></div>
+                <!-- Total -->
+                <div class="cart-total-bar">
+                    <span class="cart-total-label">Total del pedido</span>
+                    <span class="cart-total-num" id="cartTotal">S/ 0.00</span>
+                </div>
+                <!-- Formulario checkout -->
+                <form id="checkoutForm">
+                    <div class="row g-2 mb-3">
+                        <div class="col-12">
+                            <input type="text" name="nombre" class="form-control" placeholder="Nombre completo" required>
+                        </div>
+                        <div class="col-6">
+                            <input type="tel" name="telefono" class="form-control" placeholder="WhatsApp (9 dígitos)" pattern="[0-9]{9}" required>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" name="distrito" class="form-control" placeholder="Distrito" required>
+                        </div>
+                        <div class="col-12">
+                            <input type="text" name="direccion" class="form-control" placeholder="Dirección exacta" required>
+                        </div>
+                        <div class="col-6">
+                            <select name="entrega" class="form-select">
+                                <option>Delivery a Domicilio</option>
+                                <option>Recojo en Tienda</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <select name="pago" class="form-select">
+                                <option>Yape / Plin</option>
+                                <option>Contraentrega</option>
+                                <option>Transferencia</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-ocean w-100 py-2 fw-semibold justify-content-center" style="border-radius:12px;">
+                        <i class="bi bi-whatsapp"></i> Enviar Pedido por WhatsApp
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MODAL AUTH (LOGIN / REGISTRO)
+══════════════════════════════════════ -->
+<div class="modal fade modal-floany" id="authModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="authModalTitle" style="font-family:var(--ff-display);font-size:1.3rem;">Iniciar Sesión</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <!-- LOGIN -->
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Correo Electrónico</label>
+                        <input type="email" id="loginEmail" class="form-control" placeholder="tu@correo.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Contraseña</label>
+                        <input type="password" id="loginPass" class="form-control" placeholder="••••••••" required>
+                    </div>
+                    <div id="loginError" class="text-danger small mb-2 d-none"></div>
+                    <button type="submit" class="btn-ocean w-100 py-2 justify-content-center mb-3" style="border-radius:12px;">Ingresar al Sistema</button>
+                    <div class="text-center small text-muted">
+                        ¿Sin cuenta? <a href="#" id="toRegister" class="fw-bold text-decoration-none" style="color:var(--c-ocean);">Regístrate gratis</a>
+                    </div>
+                </form>
+                <!-- REGISTRO -->
+                <form id="registerForm" style="display:none;">
+                    <div class="mb-2">
+                        <label class="form-label small fw-semibold">Nombre Completo</label>
+                        <input type="text" id="regName" class="form-control" placeholder="Tu nombre" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small fw-semibold">Correo Electrónico</label>
+                        <input type="email" id="regEmail" class="form-control" placeholder="tu@correo.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Contraseña</label>
+                        <input type="password" id="regPass" class="form-control" placeholder="Mínimo 6 caracteres" minlength="6" required>
+                    </div>
+                    <div id="regError" class="text-danger small mb-2 d-none"></div>
+                    <button type="submit" class="btn-ocean w-100 py-2 justify-content-center mb-3" style="border-radius:12px;background:var(--c-whatsapp);">Crear Cuenta</button>
+                    <div class="text-center small text-muted">
+                        ¿Ya eres miembro? <a href="#" id="toLogin" class="fw-bold text-decoration-none" style="color:var(--c-ocean);">Inicia Sesión</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MODAL DETALLE PRODUCTO
+══════════════════════════════════════ -->
+<div class="modal fade modal-floany" id="detModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body pt-0">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="det-img-wrap">
+                            <img id="detImg" src="" alt="Producto">
+                        </div>
+                        <div class="d-flex gap-2 mt-3 justify-content-center flex-wrap">
+                            <span id="detStockBadge" class="badge"></span>
+                            <span id="detSkuBadge" class="badge bg-secondary"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex flex-column">
+                        <span id="detCatBadge" class="badge mb-2 align-self-start" style="background:var(--c-sky);color:var(--c-ocean);font-size:.78rem;padding:.35rem .9rem;border-radius:50px;"></span>
+                        <h2 id="detName" class="section-title mb-1" style="font-size:1.8rem;"></h2>
+                        <div id="detPrice" class="prod-price mb-3" style="font-size:2rem;"></div>
+                        <p id="detDesc" class="text-muted small lh-lg mb-3"></p>
+                        <div class="row g-2 mb-4">
+                            <div class="col-6"><div class="spec-chip"><i class="bi bi-box-seam"></i><div><strong>Material</strong><div id="detMat" class="text-muted" style="font-size:.78rem;"></div></div></div></div>
+                            <div class="col-6"><div class="spec-chip"><i class="bi bi-shield-check"></i><div><strong>Protección</strong><div class="text-muted" style="font-size:.78rem;">UV400 Certificado</div></div></div></div>
+                            <div class="col-6"><div class="spec-chip"><i class="bi bi-layers"></i><div><strong>Cristal</strong><div class="text-muted" style="font-size:.78rem;">Antirreflejo Híbrido</div></div></div></div>
+                            <div class="col-6"><div class="spec-chip"><i class="bi bi-rulers"></i><div><strong>Talla</strong><div class="text-muted" style="font-size:.78rem;">Universal / 54mm</div></div></div></div>
+                        </div>
+                        <div class="d-flex gap-2 mt-auto">
+                            <button id="detAddBtn" class="btn-ocean flex-fill py-2 justify-content-center" style="border-radius:12px;">
+                                <i class="bi bi-bag-plus"></i> Añadir al Pedido
+                            </button>
+                            <button id="detWappBtn" class="btn py-2 px-3 border-0 text-white flex-fill justify-content-center d-flex align-items-center gap-1" style="background:var(--c-whatsapp);border-radius:12px;font-size:.88rem;font-weight:500;">
+                                <i class="bi bi-whatsapp"></i> Consultar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     CHATBOT
+══════════════════════════════════════ -->
+<div id="botContainer">
+    <button class="bot-toggle" id="botToggle"><i class="bi bi-chat-dots-fill" id="botIcon"></i></button>
+    <div class="bot-panel" id="botPanel">
+        <div class="bot-head">
+            <div class="bot-head-info">
+                <div class="bot-avatar"><i class="bi bi-robot"></i></div>
+                <div>
+                    <div class="bot-name">Asistente Floany</div>
+                    <div class="bot-status">En línea ahora</div>
+                </div>
+            </div>
+            <button class="bot-close" id="botClose"><i class="bi bi-x-lg"></i></button>
+        </div>
+        <div class="bot-msgs" id="botMsgs">
+            <div class="bbl bbl-bot">¡Hola! 👋 Soy el asistente de <strong>Floany Visión</strong>. ¿En qué te puedo ayudar hoy?</div>
+            <div class="bot-opts">
+                <button class="bot-opt" onclick="botAccion('catalogo')">🕶️ Ver catálogo completo</button>
+                <button class="bot-opt" onclick="botAccion('receta')">📄 Cotizar receta médica</button>
+                <button class="bot-opt" onclick="botAccion('examen')">📅 Agendar examen visual</button>
+                <button class="bot-opt" onclick="botAccion('asesor')">💬 Hablar con especialista</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- WhatsApp flotante -->
+<a class="wapp-float" href="https://wa.me/51912796290?text=Hola%20Floany%20Visión,%20deseo%20información." target="_blank" title="WhatsApp">
+    <i class="bi bi-whatsapp"></i>
+</a>
+
+<!-- Toast -->
+<div class="toast-floany" id="toastMsg">
+    <i class="bi bi-check-circle-fill text-success"></i>
+    <span id="toastTxt">Mensaje</span>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
