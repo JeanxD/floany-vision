@@ -12,11 +12,8 @@ from pydantic import BaseModel, EmailStr
 from passlib.context import CryptContext
 import jwt
 
-from . import models, schemas, database
+from app import models, schemas, database
 
-# ─────────────────────────────────────────
-# INICIALIZACIÓN
-# ─────────────────────────────────────────
 models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI(
