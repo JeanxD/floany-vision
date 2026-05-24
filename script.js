@@ -10,7 +10,7 @@
        1. CONFIGURACIÓN GLOBAL
     ──────────────────────────────────────── */
     const CFG = {
-        API:    'http://127.0.0.1:8000',
+        API: 'https://floany-vision-2.onrender.com',
         WAPP:   '51912796290',
         KEY_CART: 'floany_cart_v2',
         KEY_USER: 'floany_user',
