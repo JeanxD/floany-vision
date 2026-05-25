@@ -473,7 +473,7 @@
             try {
                 const res = await fetch(`${CFG.API}/auth/login`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body), signal: AbortSignal.timeout(5000),
+                    body: JSON.stringify(body), signal: AbortSignal.timeout(60000),
                 });
                 const data = await res.json();
                 if (!res.ok) throw new Error(data.detail || 'Credenciales incorrectas');
@@ -501,7 +501,7 @@
             try {
                 const res = await fetch(`${CFG.API}/auth/register`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body), signal: AbortSignal.timeout(5000),
+                    body: JSON.stringify(body), signal: AbortSignal.timeout(60000),
                 });
                 const data = await res.json();
                 if (!res.ok) throw new Error(data.detail || 'Error al registrar');
