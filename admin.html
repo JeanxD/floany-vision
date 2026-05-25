@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin · Floany Visión</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --ink:    #0c1f2c;
+            --ink2:   #1e3446;
+            --ocean:  #1a6b8a;
+            --ocean2: #0e4d64;
+            --gold:   #c9a96e;
+            --mist:   #f4f1ec;
+            --paper:  #fdfaf6;
+            --card:   #ffffff;
+            --muted:  #5a7080;
+            --border: rgba(12,31,44,0.10);
+            --success:#0f6e56;
+            --danger: #a32d2d;
+            --ff-d:   'Cormorant Garamond', serif;
+            --ff-b:   'DM Sans', sans-serif;
+            --sh:     0 4px 24px rgba(12,31,44,0.08);
+            --sh-md:  0 12px 40px rgba(12,31,44,0.14);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--ff-b); background: var(--mist); color: var(--ink); min-height: 100vh; }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 240px; min-height: 100vh;
+            background: var(--ink2);
+            position: fixed; left: 0; top: 0;
+            display: flex; flex-direction: column;
+            z-index: 100;
+            transition: transform .3s;
+        }
+        .sidebar-logo {
+            padding: 1.5rem 1.4rem;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .sidebar-logo .ico {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--ocean), var(--gold));
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-family: var(--ff-d); font-size: 1.1rem; font-weight: 700;
+        }
+        .sidebar-logo span { color: #fff; font-family: var(--ff-d); font-size: 1.1rem; font-weight: 700; }
+        .sidebar-logo small { color: rgba(255,255,255,.45); font-size: .7rem; display: block; }
+
+        .nav-section { padding: .75rem 1rem .3rem; color: rgba(255,255,255,.3); font-size: .68rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+
+        .nav-item-admin {
+            display: flex; align-items: center; gap: 10px;
+            padding: .65rem 1.2rem; margin: .15rem .6rem;
+            border-radius: 10px; cursor: pointer;
+            color: rgba(255,255,255,.6); font-size: .88rem; font-weight: 500;
+            transition: all .2s; text-decoration: none;
+        }
+        .nav-item-admin:hover, .nav-item-admin.active {
+            background: rgba(255,255,255,.08); color: #fff;
+        }
+        .nav-item-admin.active { background: var(--ocean); color: #fff; }
+        .nav-item-admin i { font-size: 1.05rem; width: 20px; }
+
+        .sidebar-footer {
+            margin-top: auto; padding: 1.2rem;
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+        .admin-badge {
+            background: rgba(201,169,110,.15); border: 1px solid rgba(201,169,110,.3);
+            border-radius: 10px; padding: .6rem .9rem;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .admin-badge .avatar {
+            width: 30px; height: 30px; border-radius: 50%;
+            background: var(--gold); color: var(--ink);
+            display: flex; align-items: center; justify-content: center;
+            font-size: .8rem; font-weight: 700;
+        }
+        .admin-badge .info { flex: 1; }
+        .admin-badge .name { color: #fff; font-size: .82rem; font-weight: 600; }
+        .admin-badge .role { color: var(--gold); font-size: .68rem; }
+
+        /* MAIN */
+        .main-content { margin-left: 240px; padding: 2rem; min-height: 100vh; }
+
+        /* TOPBAR */
+        .topbar {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;
+        }
+        .topbar-title { font-family: var(--ff-d); font-size: 1.8rem; font-weight: 700; color: var(--ink); }
+        .topbar-sub { font-size: .83rem; color: var(--muted); margin-top: .1rem; }
+
+        /* STAT CARDS */
+        .stat-card {
+            background: var(--card); border-radius: 20px;
+            padding: 1.4rem 1.6rem; box-shadow: var(--sh);
+            border: 1px solid var(--border);
+            display: flex; align-items: center; gap: 1rem;
+            transition: transform .2s, box-shadow .2s;
+        }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: var(--sh-md); }
+        .stat-icon {
+            width: 52px; height: 52px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; flex-shrink: 0;
+        }
+        .stat-num { font-family: var(--ff-d); font-size: 2rem; font-weight: 700; line-height: 1; }
+        .stat-label { font-size: .78rem; color: var(--muted); margin-top: .2rem; }
+
+        /* PANEL SECTIONS */
+        .panel-section { display: none; }
+        .panel-section.active { display: block; }
+
+        /* TABLE */
+        .admin-table {
+            background: var(--card); border-radius: 20px;
+            box-shadow: var(--sh); border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .admin-table-header {
+            padding: 1.2rem 1.5rem;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .75rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .admin-table-title { font-family: var(--ff-d); font-size: 1.2rem; font-weight: 700; }
+        table { width: 100%; border-collapse: collapse; }
+        th {
+            background: var(--mist); padding: .8rem 1.2rem;
+            font-size: .75rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: .08em; color: var(--muted); text-align: left;
+        }
+        td { padding: .85rem 1.2rem; border-top: 1px solid var(--border); font-size: .88rem; vertical-align: middle; }
+        tr:hover td { background: rgba(26,107,138,.03); }
+        .badge-tipo {
+            font-size: .7rem; padding: .25rem .75rem; border-radius: 50px;
+            font-weight: 600;
+        }
+        .badge-sol { background: #fff3cd; color: #856404; }
+        .badge-med { background: #d1ecf1; color: #0c5460; }
+        .badge-ok  { background: #d4edda; color: var(--success); }
+        .badge-low { background: #fff3cd; color: #856404; }
+        .badge-out { background: #f8d7da; color: var(--danger); }
+
+        /* FORM PRODUCTO */
+        .form-card {
+            background: var(--card); border-radius: 20px;
+            padding: 1.8rem; box-shadow: var(--sh); border: 1px solid var(--border);
+        }
+        .form-label-custom { font-size: .82rem; font-weight: 600; color: var(--ink); margin-bottom: .35rem; display: block; }
+        .form-control-custom {
+            width: 100%; padding: .6rem .9rem;
+            border: 1.5px solid var(--border); border-radius: 10px;
+            font-family: var(--ff-b); font-size: .88rem; color: var(--ink);
+            background: var(--paper); transition: border .2s;
+            outline: none;
+        }
+        .form-control-custom:focus { border-color: var(--ocean); }
+        select.form-control-custom { cursor: pointer; }
+
+        /* BOTONES */
+        .btn-ocean {
+            background: var(--ocean); color: #fff; border: none;
+            border-radius: 50px; padding: .55rem 1.4rem;
+            font-size: .88rem; font-weight: 500; cursor: pointer;
+            transition: background .2s, transform .15s;
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .btn-ocean:hover { background: var(--ocean2); transform: translateY(-1px); }
+        .btn-gold {
+            background: var(--gold); color: var(--ink); border: none;
+            border-radius: 50px; padding: .55rem 1.4rem;
+            font-size: .88rem; font-weight: 600; cursor: pointer;
+            transition: background .2s; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .btn-gold:hover { background: #b8914f; }
+        .btn-danger {
+            background: #fee2e2; color: var(--danger); border: none;
+            border-radius: 8px; padding: .4rem .75rem;
+            font-size: .8rem; cursor: pointer; transition: background .2s;
+        }
+        .btn-danger:hover { background: #fecaca; }
+        .btn-edit {
+            background: #e0f2fe; color: var(--ocean); border: none;
+            border-radius: 8px; padding: .4rem .75rem;
+            font-size: .8rem; cursor: pointer; transition: background .2s;
+        }
+        .btn-edit:hover { background: #bae6fd; }
+
+        /* LOGIN OVERLAY */
+        .login-overlay {
+            position: fixed; inset: 0;
+            background: linear-gradient(135deg, var(--ink2) 0%, var(--ocean2) 100%);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 9999;
+        }
+        .login-box {
+            background: rgba(255,255,255,.07); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,.12); border-radius: 24px;
+            padding: 2.5rem; width: 100%; max-width: 380px;
+        }
+        .login-box h2 { font-family: var(--ff-d); color: #fff; font-size: 2rem; margin-bottom: .25rem; }
+        .login-box p { color: rgba(255,255,255,.55); font-size: .85rem; margin-bottom: 2rem; }
+        .login-input {
+            width: 100%; padding: .75rem 1rem;
+            background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+            border-radius: 12px; color: #fff; font-family: var(--ff-b); font-size: .9rem;
+            outline: none; margin-bottom: .85rem; transition: border .2s;
+        }
+        .login-input::placeholder { color: rgba(255,255,255,.35); }
+        .login-input:focus { border-color: var(--gold); }
+        .login-error { color: #fca5a5; font-size: .82rem; margin-bottom: .75rem; display: none; }
+
+        /* CHART BAR SIMPLE */
+        .bar-chart { display: flex; align-items: flex-end; gap: 8px; height: 120px; padding: 0 .5rem; }
+        .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .bar {
+            width: 100%; border-radius: 6px 6px 0 0;
+            background: linear-gradient(to top, var(--ocean2), var(--ocean));
+            transition: height .5s ease; min-height: 4px;
+        }
+        .bar-label { font-size: .68rem; color: var(--muted); }
+
+        /* TOAST */
+        .toast-admin {
+            position: fixed; bottom: 24px; right: 24px; z-index: 9998;
+            background: var(--ink2); color: #fff;
+            padding: .75rem 1.2rem; border-radius: 12px;
+            font-size: .86rem; font-weight: 500; box-shadow: var(--sh-md);
+            display: flex; align-items: center; gap: .6rem;
+            transform: translateY(20px); opacity: 0;
+            transition: all .3s ease; pointer-events: none;
+        }
+        .toast-admin.show { transform: none; opacity: 1; }
+
+        /* EMPTY STATE */
+        .empty-state { text-align: center; padding: 3rem; color: var(--muted); }
+        .empty-state i { font-size: 2.5rem; display: block; margin-bottom: .75rem; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: none; }
+            .main-content { margin-left: 0; padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- LOGIN OVERLAY -->
+<div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+        <h2>Panel Admin</h2>
+        <p>Acceso exclusivo para administradores de Floany Visión</p>
+        <div class="login-error" id="loginErr">Credenciales incorrectas</div>
+        <input type="email" class="login-input" id="adminEmail" placeholder="admin@floany.com">
+        <input type="password" class="login-input" id="adminPass" placeholder="Contraseña">
+        <button class="btn-ocean w-100 justify-content-center py-2" style="border-radius:12px; width:100%;" onclick="loginAdmin()">
+            <i class="bi bi-shield-lock"></i> Ingresar al Panel
+        </button>
+    </div>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+        <div class="ico">F</div>
+        <div>
+            <span>Floany Visión</span>
+            <small>Panel Administrativo</small>
+        </div>
+    </div>
+
+    <div class="nav-section">Principal</div>
+    <a class="nav-item-admin active" onclick="showSection('dashboard', this)">
+        <i class="bi bi-grid-1x2"></i> Dashboard
+    </a>
+
+    <div class="nav-section">Catálogo</div>
+    <a class="nav-item-admin" onclick="showSection('productos', this)">
+        <i class="bi bi-eyeglasses"></i> Productos
+    </a>
+    <a class="nav-item-admin" onclick="showSection('agregar', this)">
+        <i class="bi bi-plus-circle"></i> Agregar Producto
+    </a>
+
+    <div class="nav-section">Operaciones</div>
+    <a class="nav-item-admin" onclick="showSection('ventas', this)">
+        <i class="bi bi-receipt"></i> Ventas
+    </a>
+    <a class="nav-item-admin" onclick="showSection('usuarios', this)">
+        <i class="bi bi-people"></i> Usuarios
+    </a>
+
+    <div class="sidebar-footer">
+        <div class="admin-badge">
+            <div class="avatar">A</div>
+            <div class="info">
+                <div class="name">Administrador</div>
+                <div class="role">Floany Visión</div>
+            </div>
+            <i class="bi bi-box-arrow-right" style="color:rgba(255,255,255,.4); cursor:pointer;" onclick="cerrarSesion()" title="Cerrar sesión"></i>
+        </div>
+    </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main-content">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div>
+            <div class="topbar-title" id="pageTitle">Dashboard</div>
+            <div class="topbar-sub" id="pageSubtitle">Resumen general del sistema</div>
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+            <a href="index.html" class="btn-gold" style="text-decoration:none;">
+                <i class="bi bi-arrow-left"></i> Ver Tienda
+            </a>
+        </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="panel-section active" id="sec-dashboard">
+        <div class="row g-3 mb-4" id="statsRow">
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#e0f2fe;">
+                        <i class="bi bi-eyeglasses" style="color:var(--ocean);"></i>
+                    </div>
+                    <div>
+                        <div class="stat-num" id="statProductos">--</div>
+                        <div class="stat-label">Productos en Catálogo</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#dcfce7;">
+                        <i class="bi bi-receipt" style="color:var(--success);"></i>
+                    </div>
+                    <div>
+                        <div class="stat-num" id="statVentas">--</div>
+                        <div class="stat-label">Ventas Registradas</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#fef9c3;">
+                        <i class="bi bi-currency-dollar" style="color:#854f0b;"></i>
+                    </div>
+                    <div>
+                        <div class="stat-num" id="statIngresos">--</div>
+                        <div class="stat-label">Ingresos Totales (S/)</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#fce7f3;">
+                        <i class="bi bi-people" style="color:#9d174d;"></i>
+                    </div>
+                    <div>
+                        <div class="stat-num" id="statUsuarios">--</div>
+                        <div class="stat-label">Usuarios Registrados</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stock Bajo -->
+        <div class="admin-table">
+            <div class="admin-table-header">
+                <div class="admin-table-title"><i class="bi bi-exclamation-triangle text-warning me-2"></i>Productos con Stock Bajo</div>
+            </div>
+            <div id="stockBajoList" class="p-3">
+                <div class="empty-state"><i class="bi bi-check-circle text-success"></i>Todo el inventario está bien</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCTOS -->
+    <div class="panel-section" id="sec-productos">
+        <div class="admin-table">
+            <div class="admin-table-header">
+                <div class="admin-table-title">Catálogo Completo</div>
+                <button class="btn-ocean" onclick="showSection('agregar', document.querySelector('[onclick*=agregar]'))">
+                    <i class="bi bi-plus"></i> Nuevo Producto
+                </button>
+            </div>
+            <div style="overflow-x:auto;">
+                <table id="tablaProductos">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyProductos">
+                        <tr><td colspan="6" class="text-center py-4 text-muted">Cargando...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- AGREGAR PRODUCTO -->
+    <div class="panel-section" id="sec-agregar">
+        <div class="form-card">
+            <h5 style="font-family:var(--ff-d); font-size:1.3rem; margin-bottom:1.5rem;" id="formTitle">
+                <i class="bi bi-plus-circle text-ocean me-2"></i>Nuevo Producto
+            </h5>
+            <input type="hidden" id="editProductoId">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label-custom">Nombre del Producto</label>
+                    <input type="text" class="form-control-custom" id="pNombre" placeholder="Ej: Aviador Premium Black">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label-custom">Categoría</label>
+                    <select class="form-control-custom" id="pTipo">
+                        <option value="Gafas de Sol">Gafas de Sol</option>
+                        <option value="Lentes de Medida">Lentes de Medida</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label-custom">Precio (S/)</label>
+                    <input type="number" class="form-control-custom" id="pPrecio" placeholder="0.00" step="0.01">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label-custom">Stock Inicial</label>
+                    <input type="number" class="form-control-custom" id="pStock" placeholder="0">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label-custom">URL de Imagen</label>
+                    <input type="text" class="form-control-custom" id="pImagen" placeholder="https://...">
+                </div>
+                <div class="col-12">
+                    <label class="form-label-custom">Descripción</label>
+                    <textarea class="form-control-custom" id="pDescripcion" rows="3" placeholder="Describe el producto..."></textarea>
+                </div>
+                <div class="col-12 d-flex gap-2">
+                    <button class="btn-ocean" onclick="guardarProducto()">
+                        <i class="bi bi-check-circle"></i> <span id="btnGuardarTxt">Crear Producto</span>
+                    </button>
+                    <button class="btn-gold" onclick="limpiarForm()">
+                        <i class="bi bi-arrow-counterclockwise"></i> Limpiar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VENTAS -->
+    <div class="panel-section" id="sec-ventas">
+        <div class="admin-table">
+            <div class="admin-table-header">
+                <div class="admin-table-title">Historial de Ventas</div>
+            </div>
+            <div style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Cliente</th>
+                            <th>Producto ID</th>
+                            <th>Cantidad</th>
+                            <th>Total</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyVentas">
+                        <tr><td colspan="6" class="text-center py-4 text-muted">Cargando...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- USUARIOS -->
+    <div class="panel-section" id="sec-usuarios">
+        <div class="admin-table">
+            <div class="admin-table-header">
+                <div class="admin-table-title">Usuarios Registrados</div>
+            </div>
+            <div id="usuariosList" class="p-3">
+                <div class="empty-state"><i class="bi bi-people"></i>Cargando usuarios...</div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<!-- TOAST -->
+<div class="toast-admin" id="toastAdmin">
+    <i class="bi bi-check-circle-fill text-success"></i>
+    <span id="toastAdminTxt"></span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const API = 'https://floany-vision-2.onrender.com';
+const ADMIN_EMAIL = 'admin@floany.com';
+const ADMIN_PASS  = 'floany2026admin';
+
+// ── AUTH ──
+function loginAdmin() {
+    const email = document.getElementById('adminEmail').value;
+    const pass  = document.getElementById('adminPass').value;
+    const err   = document.getElementById('loginErr');
+
+    if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
+        sessionStorage.setItem('floany_admin', '1');
+        document.getElementById('loginOverlay').style.display = 'none';
+        cargarDashboard();
+    } else {
+        err.style.display = 'block';
+        setTimeout(() => err.style.display = 'none', 3000);
+    }
+}
+
+function cerrarSesion() {
+    sessionStorage.removeItem('floany_admin');
+    location.reload();
+}
+
+// Verificar si ya está logueado
+if (sessionStorage.getItem('floany_admin')) {
+    document.getElementById('loginOverlay').style.display = 'none';
+    cargarDashboard();
+}
+
+// ── NAVEGACIÓN ──
+const TITLES = {
+    dashboard: ['Dashboard', 'Resumen general del sistema'],
+    productos:  ['Catálogo de Productos', 'Gestiona tu inventario completo'],
+    agregar:    ['Agregar Producto', 'Crea o edita productos del catálogo'],
+    ventas:     ['Historial de Ventas', 'Registro de todas las transacciones'],
+    usuarios:   ['Usuarios', 'Clientes registrados en el sistema'],
+};
+
+function showSection(name, el) {
+    document.querySelectorAll('.panel-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item-admin').forEach(n => n.classList.remove('active'));
+    document.getElementById('sec-' + name).classList.add('active');
+    if (el) el.classList.add('active');
+    document.getElementById('pageTitle').textContent    = TITLES[name][0];
+    document.getElementById('pageSubtitle').textContent = TITLES[name][1];
+
+    if (name === 'productos') cargarProductos();
+    if (name === 'ventas')    cargarVentas();
+    if (name === 'usuarios')  cargarUsuarios();
+}
+
+// ── DASHBOARD ──
+async function cargarDashboard() {
+    try {
+        const res  = await fetch(`${API}/dashboard/stats`);
+        const data = await res.json();
+        document.getElementById('statProductos').textContent = data.total_productos ?? '--';
+        document.getElementById('statVentas').textContent    = data.total_ventas ?? '--';
+        document.getElementById('statIngresos').textContent  = `${(data.ingresos_totales || 0).toFixed(2)}`;
+        document.getElementById('statUsuarios').textContent  = data.total_usuarios ?? '--';
+
+        const bajo = data.productos_stock_bajo || [];
+        const cont = document.getElementById('stockBajoList');
+        if (bajo.length === 0) {
+            cont.innerHTML = '<div class="empty-state"><i class="bi bi-check-circle text-success"></i>Todo el inventario está bien</div>';
+        } else {
+            cont.innerHTML = `<div class="p-2">${bajo.map(p => `
+                <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
+                    <span class="fw-medium" style="font-size:.88rem;">${p.nombre}</span>
+                    <span class="badge ${p.stock === 0 ? 'badge-out' : 'badge-low'} badge-tipo">${p.stock === 0 ? 'Agotado' : `Stock: ${p.stock}`}</span>
+                </div>`).join('')}</div>`;
+        }
+    } catch { console.warn('No se pudo cargar el dashboard'); }
+}
+
+// ── PRODUCTOS ──
+async function cargarProductos() {
+    const tbody = document.getElementById('tbodyProductos');
+    try {
+        const res  = await fetch(`${API}/productos`);
+        const data = await res.json();
+        if (!data.length) {
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">No hay productos</td></tr>';
+            return;
+        }
+        tbody.innerHTML = data.map(p => `
+            <tr>
+                <td><span style="color:var(--muted);font-size:.8rem;">#${p.id}</span></td>
+                <td><strong>${p.nombre}</strong></td>
+                <td><span class="badge-tipo ${p.tipo.includes('Sol') ? 'badge-sol' : 'badge-med'}">${p.tipo}</span></td>
+                <td><strong style="color:var(--ocean);">S/ ${p.precio.toFixed(2)}</strong></td>
+                <td><span class="badge-tipo ${p.stock === 0 ? 'badge-out' : p.stock <= 2 ? 'badge-low' : 'badge-ok'}">${p.stock === 0 ? 'Agotado' : p.stock}</span></td>
+                <td>
+                    <button class="btn-edit me-1" onclick="editarProducto(${p.id})"><i class="bi bi-pencil"></i></button>
+                    <button class="btn-danger" onclick="eliminarProducto(${p.id}, '${p.nombre}')"><i class="bi bi-trash"></i></button>
+                </td>
+            </tr>`).join('');
+    } catch {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-danger">Error al cargar productos</td></tr>';
+    }
+}
+
+async function guardarProducto() {
+    const id    = document.getElementById('editProductoId').value;
+    const body  = {
+        nombre:      document.getElementById('pNombre').value,
+        tipo:        document.getElementById('pTipo').value,
+        precio:      parseFloat(document.getElementById('pPrecio').value),
+        stock:       parseInt(document.getElementById('pStock').value),
+        descripcion: document.getElementById('pDescripcion').value,
+        imagen:      document.getElementById('pImagen').value,
+    };
+    if (!body.nombre || !body.precio) { toast('Completa nombre y precio', 'warning'); return; }
+
+    try {
+        const url    = id ? `${API}/productos/${id}` : `${API}/productos`;
+        const method = id ? 'PUT' : 'POST';
+        const res    = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+        if (!res.ok) throw new Error();
+        toast(id ? 'Producto actualizado ✓' : 'Producto creado ✓');
+        limpiarForm();
+        showSection('productos', document.querySelector('[onclick*=productos]'));
+    } catch { toast('Error al guardar producto', 'error'); }
+}
+
+async function editarProducto(id) {
+    try {
+        const res = await fetch(`${API}/productos/${id}`);
+        const p   = await res.json();
+        document.getElementById('editProductoId').value = p.id;
+        document.getElementById('pNombre').value        = p.nombre;
+        document.getElementById('pTipo').value          = p.tipo;
+        document.getElementById('pPrecio').value        = p.precio;
+        document.getElementById('pStock').value         = p.stock;
+        document.getElementById('pDescripcion').value   = p.descripcion || '';
+        document.getElementById('pImagen').value        = p.imagen || '';
+        document.getElementById('formTitle').innerHTML  = `<i class="bi bi-pencil-square me-2" style="color:var(--ocean);"></i>Editar: ${p.nombre}`;
+        document.getElementById('btnGuardarTxt').textContent = 'Guardar Cambios';
+        showSection('agregar', document.querySelector('[onclick*=agregar]'));
+    } catch { toast('Error al cargar producto', 'error'); }
+}
+
+async function eliminarProducto(id, nombre) {
+    if (!confirm(`¿Eliminar "${nombre}"?`)) return;
+    try {
+        const res = await fetch(`${API}/productos/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error();
+        toast('Producto eliminado ✓');
+        cargarProductos();
+    } catch { toast('Error al eliminar', 'error'); }
+}
+
+function limpiarForm() {
+    document.getElementById('editProductoId').value = '';
+    document.getElementById('pNombre').value = '';
+    document.getElementById('pPrecio').value = '';
+    document.getElementById('pStock').value  = '';
+    document.getElementById('pDescripcion').value = '';
+    document.getElementById('pImagen').value = '';
+    document.getElementById('formTitle').innerHTML = '<i class="bi bi-plus-circle me-2" style="color:var(--ocean);"></i>Nuevo Producto';
+    document.getElementById('btnGuardarTxt').textContent = 'Crear Producto';
+}
+
+// ── VENTAS ──
+async function cargarVentas() {
+    const tbody = document.getElementById('tbodyVentas');
+    try {
+        const res  = await fetch(`${API}/ventas`);
+        const data = await res.json();
+        if (!data.length) {
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">Sin ventas registradas</td></tr>';
+            return;
+        }
+        tbody.innerHTML = data.map(v => `
+            <tr>
+                <td>#${v.id}</td>
+                <td>${v.cliente}</td>
+                <td>Prod. #${v.producto_id}</td>
+                <td>${v.cantidad}</td>
+                <td><strong style="color:var(--ocean);">S/ ${v.total_pagado.toFixed(2)}</strong></td>
+                <td style="color:var(--muted);font-size:.8rem;">${v.fecha}</td>
+            </tr>`).join('');
+    } catch {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-danger">Error al cargar ventas</td></tr>';
+    }
+}
+
+// ── USUARIOS ──
+async function cargarUsuarios() {
+    const cont = document.getElementById('usuariosList');
+    cont.innerHTML = '<div class="empty-state"><i class="bi bi-hourglass-split"></i>Cargando...</div>';
+    // Nota: endpoint de usuarios requiere implementación en backend
+    cont.innerHTML = '<div class="empty-state"><i class="bi bi-people"></i>Lista de usuarios disponible próximamente.<br><small>Requiere endpoint /usuarios en el backend.</small></div>';
+}
+
+// ── TOAST ──
+let toastT;
+function toast(msg, type = 'success') {
+    const el  = document.getElementById('toastAdmin');
+    const txt = document.getElementById('toastAdminTxt');
+    txt.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastT);
+    toastT = setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+// Enter en login
+document.getElementById('adminPass')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') loginAdmin();
+});
+</script>
+</body>
+</html>
