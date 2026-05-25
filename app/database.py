@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # Usamos SQLite por ahora para Floany Visión (luego pasamos a MySQL)
-SQLALCHEMY_DATABASE_URL = "sqlite:///./floany_vision.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:////tmp/floany_vision.db"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
