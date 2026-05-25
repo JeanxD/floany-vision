@@ -671,5 +671,105 @@
     } else {
         init();
     }
+    // ── FAVORITOS ──
+    function getFavoritos() {
+        const s = localStorage.getItem('floany_favs');
+        return s ? JSON.parse(s) : [];
+    }
+    function saveFavoritos(favs) {
+        localStorage.setItem('floany_favs', JSON.stringify(favs));
+    }
+    window.toggleFavorito = function(id) {
+        let favs = getFavoritos();
+        const idx = favs.findIndex(f => f.id === id);
+        if (idx >= 0) favs.splice(idx, 1);
+        else {
+            const p = STATE.productos.find(x => x.id === id);
+            if (p) favs.push({ id: p.id, nombre: p.nombre, precio: p.precio, imagen: p.imagen });
+        }
+        saveFavoritos(favs);
+        renderFavBtn(id);
+        toast(idx >= 0 ? 'Eliminado de favoritos' : '❤️ Añadido a favoritos');
+    };
+    function renderFavBtn(id) {
+        const favs = getFavoritos();
+        const isFav = favs.some(f => f.id === id);
+        document.querySelectorAll(`[data-fav-id="${id}"]`).forEach(btn => {
+            btn.innerHTML = `<i class="bi bi-heart${isFav ? '-fill' : ''}" style="color:${isFav ? '#e53e3e' : ''}"></i>`;
+        });
+    }
+
+    // ── MODAL USUARIO ──
+    window.abrirModalUsuario = function() {
+        if (!STATE.user) {
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('authModal')).show();
+            return;
+        }
+        const nombre = STATE.user.nombre || 'Usuario';
+        document.getElementById('userAvatarBig').textContent  = nombre.charAt(0).toUpperCase();
+        document.getElementById('userNameBig').textContent    = nombre;
+        document.getElementById('editNombreUser').value       = nombre;
+        document.getElementById('editCorreoUser').value       = STATE.user.correo || '';
+        renderFavoritos();
+        document.getElementById('userModal').classList.add('open');
+    };
+
+    window.cerrarModalUsuario = function() {
+        document.getElementById('userModal').classList.remove('open');
+    };
+
+    window.switchUserTab = function(tab, el) {
+        document.querySelectorAll('.user-tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.user-tab').forEach(t => t.classList.remove('active'));
+        document.getElementById('tab-' + tab).classList.add('active');
+        el.classList.add('active');
+        if (tab === 'favoritos') renderFavoritos();
+    };
+
+    function renderFavoritos() {
+        const favs = getFavoritos();
+        const cont = document.getElementById('favList');
+        if (!cont) return;
+        if (!favs.length) {
+            cont.innerHTML = '<div class="text-center py-4 text-muted small">No tienes favoritos aún.<br>Haz clic en el ♡ de cualquier producto.</div>';
+            return;
+        }
+        cont.innerHTML = favs.map(f => `
+            <div class="fav-item">
+                <img class="fav-img" src="${f.imagen || ''}"
+                     onerror="this.src='https://images.unsplash.com/photo-1591076482161-42ce6da69f67?w=100&q=60'"
+                     alt="${f.nombre}">
+                <div>
+                    <div class="fav-name">${f.nombre}</div>
+                    <div class="fav-price">S/ ${f.precio.toFixed(2)}</div>
+                </div>
+                <button class="fav-remove" onclick="toggleFavorito(${f.id}); renderFavoritos();" title="Quitar">
+                    <i class="bi bi-x-circle-fill"></i>
+                </button>
+            </div>`).join('');
+    }
+
+    window.guardarDatosUsuario = function() {
+        const nombre = document.getElementById('editNombreUser').value.trim();
+        if (!nombre) return;
+        STATE.user.nombre = nombre;
+        localStorage.setItem(CFG.KEY_USER, JSON.stringify(STATE.user));
+        document.getElementById('authBtnTxt').textContent     = nombre.split(' ')[0];
+        document.getElementById('userNameBig').textContent    = nombre;
+        document.getElementById('userAvatarBig').textContent  = nombre.charAt(0).toUpperCase();
+        toast('Datos actualizados ✓');
+    };
+
+    window.cerrarSesionUsuario = function() {
+        STATE.user = null;
+        localStorage.removeItem(CFG.KEY_USER);
+        document.getElementById('authBtnTxt').textContent = 'Ingresar';
+        cerrarModalUsuario();
+        toast('Sesión cerrada');
+    };
+
+    document.getElementById('userModal')?.addEventListener('click', function(e) {
+        if (e.target === this) cerrarModalUsuario();
+    });
 
 })(); 

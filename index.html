@@ -595,6 +595,72 @@
             text-decoration: none; transition: transform .2s;
         }
         .wapp-float:hover { transform: scale(1.1); color: #fff; }
+        /* ── MODAL USUARIO ── */
+.user-modal-overlay {
+    position: fixed; inset: 0; background: rgba(12,31,44,.55);
+    backdrop-filter: blur(6px); z-index: 3000;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden; transition: all .3s;
+}
+.user-modal-overlay.open { opacity: 1; visibility: visible; }
+.user-modal-box {
+    background: var(--c-paper); border-radius: 28px;
+    width: 100%; max-width: 560px; max-height: 90vh;
+    overflow-y: auto; box-shadow: 0 24px 60px rgba(12,31,44,.25);
+    border: 1px solid var(--c-border);
+    transform: translateY(20px) scale(.97);
+    transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+.user-modal-overlay.open .user-modal-box { transform: none; }
+.user-modal-header {
+    padding: 1.4rem 1.6rem; border-bottom: 1px solid var(--c-border);
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; background: var(--c-paper); z-index: 1;
+}
+.user-modal-title { font-family: var(--ff-display); font-size: 1.4rem; font-weight: 700; }
+.user-avatar-big {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--c-ocean), var(--c-ocean-dk));
+    color: #fff; font-family: var(--ff-display); font-size: 2rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1rem; box-shadow: 0 8px 24px rgba(26,107,138,.3);
+}
+.user-tab-bar {
+    display: flex; gap: .5rem; margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--c-border); padding-bottom: .5rem;
+    flex-wrap: wrap;
+}
+.user-tab {
+    padding: .45rem 1rem; border-radius: 50px; font-size: .83rem; font-weight: 500;
+    cursor: pointer; border: none; background: transparent; color: var(--c-muted);
+    transition: all .2s;
+}
+.user-tab.active { background: var(--c-ocean); color: #fff; }
+.user-tab-content { display: none; }
+.user-tab-content.active { display: block; }
+.fav-item {
+    display: flex; align-items: center; gap: .85rem;
+    padding: .75rem 0; border-bottom: 1px solid var(--c-border);
+}
+.fav-img {
+    width: 56px; height: 56px; border-radius: 12px; object-fit: cover;
+    background: var(--c-mist); flex-shrink: 0;
+}
+.fav-name { font-weight: 500; font-size: .88rem; }
+.fav-price { color: var(--c-ocean); font-family: var(--ff-display); font-size: 1rem; font-weight: 700; }
+.fav-remove { margin-left: auto; color: var(--c-muted); background: none; border: none; cursor: pointer; font-size: 1.1rem; }
+.fav-remove:hover { color: #e53e3e; }
+.edit-field { margin-bottom: 1rem; }
+.edit-label { font-size: .8rem; font-weight: 600; color: var(--c-muted); margin-bottom: .3rem; display: block; text-transform: uppercase; letter-spacing: .06em; }
+.edit-input {
+    width: 100%; padding: .6rem .9rem;
+    border: 1.5px solid var(--c-border); border-radius: 12px;
+    font-family: var(--ff-body); font-size: .9rem; color: var(--c-text);
+    background: var(--c-paper); outline: none; transition: border .2s;
+}
+.edit-input:focus { border-color: var(--c-ocean); }
+body.dark .edit-input { background: var(--c-card); color: var(--c-text); border-color: var(--c-border); }
+body.dark .user-modal-box, body.dark .user-modal-header { background: var(--c-card); }
     </style>
 </head>
 <body>
@@ -630,10 +696,10 @@
                     <span id="cartBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
                           style="background:var(--c-gold); color:var(--c-ink); font-size:.62rem;">0</span>
                 </button>
-                <button class="btn-ghost" data-bs-toggle="modal" data-bs-target="#authModal" id="authBtn">
-                    <i class="bi bi-person-circle"></i>
-                    <span id="authBtnTxt">Ingresar</span>
-                </button>
+                <button class="btn-ghost" id="authBtn" onclick="STATE && STATE.user ? window.abrirModalUsuario() : bootstrap.Modal.getOrCreateInstance(document.getElementById('authModal')).show()">
+                     <i class="bi bi-person-circle"></i>
+                     <span id="authBtnTxt">Ingresar</span>
+                                        </button>
             </div>
         </div>
     </div>
@@ -1098,6 +1164,58 @@
 <div class="toast-floany" id="toastMsg">
     <i class="bi bi-check-circle-fill text-success"></i>
     <span id="toastTxt">Mensaje</span>
+</div>
+<!-- MODAL USUARIO -->
+<div class="user-modal-overlay" id="userModal">
+  <div class="user-modal-box">
+    <div class="user-modal-header">
+      <span class="user-modal-title">Mi Cuenta</span>
+      <button class="btn-detail" onclick="cerrarModalUsuario()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="user-modal-body">
+      <div class="user-avatar-big" id="userAvatarBig">U</div>
+      <div class="text-center mb-3">
+        <div style="font-family:var(--ff-display);font-size:1.3rem;font-weight:700;" id="userNameBig">Usuario</div>
+        <div style="font-size:.82rem;color:var(--c-muted);" id="userEmailBig"></div>
+      </div>
+      <div class="user-tab-bar">
+        <button class="user-tab active" onclick="switchUserTab('favoritos', this)"><i class="bi bi-heart me-1"></i>Favoritos</button>
+        <button class="user-tab" onclick="switchUserTab('pedidos', this)"><i class="bi bi-bag me-1"></i>Pedidos</button>
+        <button class="user-tab" onclick="switchUserTab('recetas', this)"><i class="bi bi-file-medical me-1"></i>Recetas</button>
+        <button class="user-tab" onclick="switchUserTab('editar', this)"><i class="bi bi-pencil me-1"></i>Editar</button>
+      </div>
+      <div class="user-tab-content active" id="tab-favoritos">
+        <div id="favList"><div class="text-center py-4 text-muted small">No tienes favoritos aún.</div></div>
+      </div>
+      <div class="user-tab-content" id="tab-pedidos">
+        <div class="text-center py-4 text-muted small">Tus pedidos enviados por WhatsApp aparecerán aquí.</div>
+      </div>
+      <div class="user-tab-content" id="tab-recetas">
+        <div class="text-center py-4 text-muted small">No has subido recetas aún.</div>
+      </div>
+      <div class="user-tab-content" id="tab-editar">
+        <div class="edit-field">
+          <label class="edit-label">Nombre Completo</label>
+          <input type="text" class="edit-input" id="editNombreUser" placeholder="Tu nombre">
+        </div>
+        <div class="edit-field">
+          <label class="edit-label">Correo Electrónico</label>
+          <input type="email" class="edit-input" id="editCorreoUser" placeholder="tu@correo.com" disabled style="opacity:.6;">
+        </div>
+        <div class="edit-field">
+          <label class="edit-label">Nueva Contraseña (opcional)</label>
+          <input type="password" class="edit-input" id="editPassUser" placeholder="Dejar vacío para no cambiar">
+        </div>
+        <button class="btn-ocean w-100 mt-2 justify-content-center py-2" style="border-radius:12px;" onclick="guardarDatosUsuario()">
+          <i class="bi bi-check-circle"></i> Guardar Cambios
+        </button>
+        <hr style="margin:1.5rem 0;border-color:var(--c-border);">
+        <button class="w-100 py-2" style="border-radius:12px;background:#fee2e2;color:#a32d2d;border:none;font-size:.88rem;cursor:pointer;" onclick="cerrarSesionUsuario()">
+          <i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Scripts -->
