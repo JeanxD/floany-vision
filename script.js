@@ -479,7 +479,7 @@
                 if (!res.ok) throw new Error(data.detail || 'Credenciales incorrectas');
                 STATE.user = { nombre: data.nombre, token: data.token };
                 localStorage.setItem(CFG.KEY_USER, JSON.stringify(STATE.user));
-                document.getElementById('authBtnTxt').textContent = STATE.user.nombre.split(' ')[0];
+                document.getElementById('authBtn').onclick = () => window.abrirModalUsuario();
                 bootstrap.Modal.getInstance(document.getElementById('authModal'))?.hide();
                 toast(`¡Bienvenido, ${STATE.user.nombre}! 👋`);
             } catch (err) {
