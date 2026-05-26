@@ -448,6 +448,7 @@
         if (saved) {
             STATE.user = JSON.parse(saved);
             document.getElementById('authBtnTxt').textContent = STATE.user.nombre.split(' ')[0];
+            window.__userLoggedIn = true;
         }
 
         // Toggle login/registro
@@ -480,6 +481,7 @@
                 STATE.user = { nombre: data.nombre, token: data.token };
                 localStorage.setItem(CFG.KEY_USER, JSON.stringify(STATE.user));
                 document.getElementById('authBtn').onclick = () => window.abrirModalUsuario();
+                window.__userLoggedIn = true;
                 bootstrap.Modal.getInstance(document.getElementById('authModal'))?.hide();
                 toast(`¡Bienvenido, ${STATE.user.nombre}! 👋`);
             } catch (err) {

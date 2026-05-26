@@ -696,10 +696,10 @@ body.dark .user-modal-box, body.dark .user-modal-header { background: var(--c-ca
                     <span id="cartBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
                           style="background:var(--c-gold); color:var(--c-ink); font-size:.62rem;">0</span>
                 </button>
-                <button class="btn-ghost" id="authBtn" onclick="STATE && STATE.user ? window.abrirModalUsuario() : bootstrap.Modal.getOrCreateInstance(document.getElementById('authModal')).show()">
-                     <i class="bi bi-person-circle"></i>
-                     <span id="authBtnTxt">Ingresar</span>
-                                        </button>
+                <button class="btn-ghost" id="authBtn" onclick="document.getElementById('userModal') && window.__userLoggedIn ? window.abrirModalUsuario() : bootstrap.Modal.getOrCreateInstance(document.getElementById('authModal')).show()">
+    <i class="bi bi-person-circle"></i>
+    <span id="authBtnTxt">Ingresar</span>
+</button>
             </div>
         </div>
     </div>
