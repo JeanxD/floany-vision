@@ -1,16 +1,18 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# Usamos SQLite por ahora para Floany Visión (luego pasamos a MySQL)
-SQLALCHEMY_DATABASE_URL = "sqlite:////tmp/floany_vision.db"
-
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+SQLALCHEMY_DATABASE_URL = os.environ.get(
+    "DATABASE_URL",
+    "postgresql://postgres.tqylldzzapbivxnyfxpw:PuHohUs0Sbij8cnU@aws-1-us-west-1.pooler.supabase.com:5432/postgres"
 )
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# ESTA ES LA LÍNEA QUE TE ESTÁ DANDO EL ERROR:
+if SQLALCHEMY_DATABASE_URL.startswith("postgres://"):
+    SQLALCHEMY_DATABASE_URL = SQLALCHEMY_DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 def get_db():
