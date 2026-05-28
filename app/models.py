@@ -9,7 +9,8 @@ class Producto(Base):
     tipo = Column(String(50))
     precio = Column(Float)
     stock = Column(Integer)
-    descripcion = Column(String(255))
+    descripcion = Column(String(500))
+    imagen = Column(String(500), nullable=True)
 
 class Venta(Base):
     __tablename__ = "ventas"
