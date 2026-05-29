@@ -407,7 +407,7 @@
     function initObserver(){ if(!window.IntersectionObserver) return; const obs=new IntersectionObserver(entries=>entries.forEach(e=>{ if(e.isIntersecting){e.target.style.animation='fadeUp .5s ease both';obs.unobserve(e.target);} }),{threshold:0.1}); document.querySelectorAll('.prod-card,.testi-card,.face-card,.cat-banner').forEach(el=>obs.observe(el)); }
 
     // ── INIT ──
-    function init(){ buildHero(); initTheme(); initAuth(); initBot(); initUpload(); initClock(); loadCart(); fetchProductos(); initObserver();initCountdown();initCounters();initBackToTop();initReveal(); }
+    function init(){ buildHero(); initTheme(); initAuth(); initBot(); initUpload(); initClock(); loadCart(); fetchProductos(); initObserver();initCountdown();initCounters();initBackToTop();initReveal();initGoogleAuth(); }
     if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
     else init();
 
@@ -615,6 +615,141 @@
             });
         }, { threshold: 0.08 });
         document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    }
+    // ── GOOGLE LOGIN ──
+    const GOOGLE_CLIENT_ID = '943009217020-e288botjtslisa8r0m30r46vfj5d6ucc.apps.googleusercontent.com';
+ 
+    // Inicializar Google Identity Services
+    function initGoogleAuth() {
+        if (!window.google) {
+            setTimeout(initGoogleAuth, 500);
+            return;
+        }
+        window.google.accounts.id.initialize({
+            client_id: GOOGLE_CLIENT_ID,
+            callback: handleGoogleResponse,
+            auto_select: false,
+            cancel_on_tap_outside: true,
+        });
+    }
+ 
+    // Abrir popup de Google al hacer clic
+    window.loginConGoogle = function() {
+        if (!window.google) { toast('Error al cargar Google. Recarga la página.'); return; }
+        window.google.accounts.id.prompt(notification => {
+            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                // Fallback: usar OAuth popup
+                const client = window.google.accounts.oauth2.initTokenClient({
+                    client_id: GOOGLE_CLIENT_ID,
+                    scope: 'email profile',
+                    callback: (response) => {
+                        if (response.access_token) fetchGoogleUserInfo(response.access_token);
+                    },
+                });
+                client.requestAccessToken();
+            }
+        });
+    };
+ 
+    // Manejar respuesta de Google (token JWT)
+    async function handleGoogleResponse(response) {
+        try {
+            const credential = response.credential;
+            // Decodificar el JWT de Google (sin verificar, solo para obtener datos)
+            const payload = JSON.parse(atob(credential.split('.')[1]));
+            await procesarUsuarioGoogle(payload.name, payload.email, payload.picture);
+        } catch (err) {
+            toast('Error al iniciar sesión con Google');
+            console.error(err);
+        }
+    }
+ 
+    // Obtener info del usuario con access token
+    async function fetchGoogleUserInfo(accessToken) {
+        try {
+            const res  = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+            const user = await res.json();
+            await procesarUsuarioGoogle(user.name, user.email, user.picture);
+        } catch (err) {
+            toast('Error al obtener datos de Google');
+        }
+    }
+ 
+    // Procesar usuario de Google: registrar o loguear en nuestro backend
+    async function procesarUsuarioGoogle(nombre, correo, foto) {
+        try {
+            // Intentar login primero
+            const loginRes = await fetch(`${CFG.API}/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ correo, password: `google_${correo}_oauth` }),
+                signal: AbortSignal.timeout(10000),
+            });
+ 
+            if (loginRes.ok) {
+                const data = await loginRes.json();
+                guardarSesionGoogle(data.nombre, correo, foto, data.token);
+                return;
+            }
+ 
+            // Si no existe, registrar automáticamente
+            const regRes = await fetch(`${CFG.API}/auth/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    nombre,
+                    correo,
+                    password: `google_${correo}_oauth`,
+                }),
+                signal: AbortSignal.timeout(10000),
+            });
+ 
+            if (regRes.ok) {
+                // Loguear después de registrar
+                const loginRes2 = await fetch(`${CFG.API}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ correo, password: `google_${correo}_oauth` }),
+                    signal: AbortSignal.timeout(10000),
+                });
+                const data2 = await loginRes2.json();
+                guardarSesionGoogle(data2.nombre, correo, foto, data2.token);
+            }
+        } catch (err) {
+            // Si el backend falla, loguear solo en frontend
+            guardarSesionGoogle(nombre, correo, foto, null);
+        }
+    }
+ 
+    function guardarSesionGoogle(nombre, correo, foto, token) {
+        STATE.user = { nombre, correo, foto, token, loginMethod: 'google' };
+        localStorage.setItem(CFG.KEY_USER, JSON.stringify(STATE.user));
+        window.__userLoggedIn = true;
+ 
+        // Actualizar botón con foto de Google
+        const btn = document.getElementById('authBtn');
+        const txt = document.getElementById('authBtnTxt');
+        if (txt) txt.textContent = nombre.split(' ')[0];
+        if (btn) {
+            btn.removeAttribute('data-bs-toggle');
+            btn.removeAttribute('data-bs-target');
+            btn.onclick = () => window.abrirModalUsuario();
+        }
+ 
+        // Cerrar modal auth
+        bootstrap.Modal.getInstance(document.getElementById('authModal'))?.hide();
+        toast(`¡Bienvenido, ${nombre}! 👋`);
+        updateFavBtns();
+ 
+        // Actualizar avatar con foto de Google
+        const avatar = document.getElementById('userAvatarBig');
+        if (avatar && foto) {
+            avatar.innerHTML = `<img src="${foto}" class="user-google-photo" alt="${nombre}">`;
+            avatar.style.background = 'transparent';
+            avatar.style.padding = '0';
+        }
     }
 
 })();
