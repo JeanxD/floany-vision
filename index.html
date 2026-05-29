@@ -289,6 +289,189 @@
         .swiper-button-next::after,.swiper-button-prev::after{font-size:1.1rem!important;font-weight:700;}
 
         @media(max-width:768px){.hero-slide{padding:2rem 1.4rem;min-height:340px;}.hero-img-wrap img{max-height:180px;}}
+
+        
+        /* ── BANNER OFERTA CON CUENTA REGRESIVA ── */
+.promo-banner {
+    background: linear-gradient(135deg, var(--c-ocean-dk) 0%, #0a3d57 50%, var(--c-ocean) 100%);
+    border-radius: var(--r-lg); padding: 2rem; margin-bottom: 3rem;
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1.5rem;
+}
+.promo-banner::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 80% 50%, rgba(201,169,110,.15) 0%, transparent 60%);
+}
+.promo-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--c-gold); color: var(--c-ink);
+    font-size: .75rem; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; border-radius: 50px;
+    padding: .3rem .9rem; margin-bottom: .6rem;
+}
+.promo-title {
+    font-family: var(--ff-display); font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 700; color: #fff; margin-bottom: .4rem;
+}
+.promo-sub { color: rgba(255,255,255,.7); font-size: .88rem; }
+.countdown-wrap { display: flex; gap: .75rem; position: relative; z-index: 1; }
+.countdown-box {
+    background: rgba(255,255,255,.12); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: var(--r-md); padding: .75rem 1rem;
+    text-align: center; min-width: 64px;
+}
+.countdown-num {
+    font-family: var(--ff-display); font-size: 2rem; font-weight: 700;
+    color: #fff; line-height: 1; display: block;
+}
+.countdown-lbl { font-size: .65rem; color: rgba(255,255,255,.6); letter-spacing: .1em; text-transform: uppercase; }
+.promo-btn {
+    background: var(--c-gold); color: var(--c-ink); border: none;
+    border-radius: 50px; padding: .7rem 1.8rem;
+    font-size: .9rem; font-weight: 700; cursor: pointer;
+    transition: transform .2s, box-shadow .2s; white-space: nowrap;
+    position: relative; z-index: 1;
+}
+.promo-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(201,169,110,.4); }
+ 
+/* ── CONTADOR ANIMADO ── */
+.stats-section {
+    background: linear-gradient(135deg, var(--c-ink-2), #0a3d57);
+    border-radius: var(--r-lg); padding: 3rem 2rem; margin: 3rem 0;
+    position: relative; overflow: hidden;
+}
+.stats-section::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(201,169,110,.1) 0%, transparent 60%);
+}
+.stat-item { text-align: center; position: relative; z-index: 1; }
+.stat-number {
+    font-family: var(--ff-display); font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 700; color: var(--c-gold); line-height: 1;
+    display: block;
+}
+.stat-suffix { color: var(--c-gold); font-family: var(--ff-display); font-size: 2rem; }
+.stat-desc { color: rgba(255,255,255,.7); font-size: .88rem; margin-top: .5rem; }
+.stat-divider {
+    width: 1px; background: rgba(255,255,255,.15);
+    align-self: stretch; margin: 1rem 0;
+}
+ 
+/* ── FAQ INTERACTIVO ── */
+.faq-section { margin: 3rem 0; }
+.faq-item {
+    background: var(--c-card); border: 1px solid var(--c-border);
+    border-radius: var(--r-md); margin-bottom: .75rem;
+    overflow: hidden; transition: box-shadow .2s;
+}
+.faq-item:hover { box-shadow: var(--sh-sm); }
+.faq-question {
+    width: 100%; padding: 1.1rem 1.4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: none; border: none; cursor: pointer;
+    font-family: var(--ff-body); font-size: .95rem; font-weight: 500;
+    color: var(--c-text); text-align: left; gap: 1rem;
+}
+.faq-icon {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--c-mist); border: 1px solid var(--c-border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all .3s; font-size: .9rem;
+    color: var(--c-ocean);
+}
+body.dark .faq-icon { background: rgba(255,255,255,.08); }
+.faq-item.open .faq-icon {
+    background: var(--c-ocean); color: #fff; border-color: var(--c-ocean);
+    transform: rotate(45deg);
+}
+.faq-answer {
+    max-height: 0; overflow: hidden;
+    transition: max-height .35s ease, padding .35s ease;
+    padding: 0 1.4rem;
+}
+.faq-item.open .faq-answer {
+    max-height: 300px; padding: 0 1.4rem 1.1rem;
+}
+.faq-answer p { color: var(--c-muted); font-size: .88rem; line-height: 1.7; margin: 0; }
+ 
+/* ── QUIZ DE RECOMENDACIÓN ── */
+.quiz-section {
+    background: var(--c-card); border: 1px solid var(--c-border);
+    border-radius: var(--r-lg); padding: 2rem; margin: 3rem 0;
+    box-shadow: var(--sh-sm);
+}
+.quiz-progress-bar {
+    height: 5px; background: var(--c-mist);
+    border-radius: 50px; margin-bottom: 1.5rem; overflow: hidden;
+}
+.quiz-progress-fill {
+    height: 100%; background: var(--c-ocean);
+    border-radius: 50px; transition: width .4s ease;
+}
+.quiz-step { display: none; animation: fadeUp .35s ease both; }
+.quiz-step.active { display: block; }
+.quiz-q {
+    font-family: var(--ff-display); font-size: 1.4rem; font-weight: 700;
+    margin-bottom: 1.2rem; color: var(--c-text);
+}
+.quiz-options { display: flex; flex-direction: column; gap: .6rem; }
+.quiz-opt {
+    background: var(--c-mist); border: 1.5px solid var(--c-border);
+    border-radius: var(--r-md); padding: .85rem 1.2rem;
+    cursor: pointer; font-size: .9rem; font-weight: 500;
+    color: var(--c-text); transition: all .2s; text-align: left;
+    display: flex; align-items: center; gap: .75rem;
+}
+body.dark .quiz-opt { background: rgba(255,255,255,.05); }
+.quiz-opt:hover { border-color: var(--c-ocean); color: var(--c-ocean); background: rgba(26,107,138,.05); }
+.quiz-opt.selected { border-color: var(--c-ocean); background: rgba(26,107,138,.08); color: var(--c-ocean); }
+.quiz-opt-icon { font-size: 1.2rem; }
+.quiz-nav { display: flex; gap: .75rem; margin-top: 1.5rem; flex-wrap: wrap; }
+.quiz-result {
+    text-align: center; padding: 1rem 0;
+    display: none; animation: fadeUp .4s ease both;
+}
+.quiz-result.show { display: block; }
+.quiz-result-badge {
+    display: inline-block; background: var(--c-gold);
+    color: var(--c-ink); font-size: .75rem; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+    border-radius: 50px; padding: .3rem .9rem; margin-bottom: 1rem;
+}
+.quiz-result-title {
+    font-family: var(--ff-display); font-size: 1.8rem; font-weight: 700;
+    color: var(--c-text); margin-bottom: .5rem;
+}
+.quiz-result-desc { color: var(--c-muted); font-size: .9rem; margin-bottom: 1.5rem; max-width: 400px; margin-left: auto; margin-right: auto; }
+.quiz-result-img {
+    width: 200px; height: 140px; object-fit: cover;
+    border-radius: var(--r-md); margin: 0 auto 1.5rem;
+    display: block; box-shadow: var(--sh-md);
+}
+ 
+/* ── BOTÓN VOLVER ARRIBA ── */
+.back-to-top {
+    position: fixed; bottom: 160px; right: 24px; z-index: 2300;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--c-ink-2); color: #fff;
+    border: none; cursor: pointer; font-size: 1.1rem;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--sh-md); opacity: 0; visibility: hidden;
+    transform: translateY(10px);
+    transition: all .3s ease;
+}
+.back-to-top.visible { opacity: 1; visibility: visible; transform: none; }
+.back-to-top:hover { background: var(--c-ocean); transform: translateY(-3px); }
+ 
+/* ── TRANSICIONES SCROLL ── */
+.reveal {
+    opacity: 0; transform: translateY(32px);
+    transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+
     </style>
 </head>
 <body>
@@ -352,6 +535,39 @@
         </div>
     </section>
 
+
+    <!-- BANNER OFERTA CON CUENTA REGRESIVA -->
+<section class="mb-5 reveal" id="promo-banner-section">
+    <div class="promo-banner">
+        <div style="position:relative;z-index:1;">
+            <div class="promo-badge"><i class="bi bi-lightning-fill me-1"></i>Oferta Especial</div>
+            <div class="promo-title">20% OFF en Lentes de Medida</div>
+            <div class="promo-sub">Solo por tiempo limitado. Incluye cristales antirreflejo y filtro Blue Defense.</div>
+            <button class="promo-btn mt-3" onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">
+                Aprovechar Oferta <i class="bi bi-arrow-right ms-1"></i>
+            </button>
+        </div>
+        <div class="countdown-wrap">
+            <div class="countdown-box">
+                <span class="countdown-num" id="cdDays">00</span>
+                <span class="countdown-lbl">Días</span>
+            </div>
+            <div class="countdown-box">
+                <span class="countdown-num" id="cdHours">00</span>
+                <span class="countdown-lbl">Horas</span>
+            </div>
+            <div class="countdown-box">
+                <span class="countdown-num" id="cdMins">00</span>
+                <span class="countdown-lbl">Mins</span>
+            </div>
+            <div class="countdown-box">
+                <span class="countdown-num" id="cdSecs">00</span>
+                <span class="countdown-lbl">Segs</span>
+            </div>
+        </div>
+    </div>
+</section>
+
     <!-- CATEGORÍAS -->
     <section id="categorias" class="mb-5">
         <div class="row g-3">
@@ -400,6 +616,30 @@
             <p class="text-muted mt-3">No encontramos productos que coincidan.</p>
         </div>
     </section>
+
+    <!-- CONTADOR ANIMADO DE ESTADÍSTICAS -->
+<section class="reveal" id="stats-section">
+    <div class="stats-section">
+        <div class="row g-4 align-items-center justify-content-center text-center">
+            <div class="col-6 col-md-3 stat-item">
+                <span class="stat-number" data-target="500" data-suffix="+">0</span>
+                <div class="stat-desc">Clientes Satisfechos</div>
+            </div>
+            <div class="col-6 col-md-3 stat-item">
+                <span class="stat-number" data-target="8" data-suffix="+">0</span>
+                <div class="stat-desc">Años de Experiencia</div>
+            </div>
+            <div class="col-6 col-md-3 stat-item">
+                <span class="stat-number" data-target="120" data-suffix="+">0</span>
+                <div class="stat-desc">Modelos en Catálogo</div>
+            </div>
+            <div class="col-6 col-md-3 stat-item">
+                <span class="stat-number" data-target="98" data-suffix="%">0</span>
+                <div class="stat-desc">Satisfacción Garantizada</div>
+            </div>
+        </div>
+    </div>
+</section>
 
     <!-- PROBADOR -->
     <section id="probador" class="my-5 py-5" style="border-top:1px solid var(--c-border);border-bottom:1px solid var(--c-border);">
@@ -454,6 +694,91 @@
         </div>
     </section>
 
+    <!-- QUIZ DE RECOMENDACIÓN -->
+    <section class="reveal" id="quiz-section">
+    <div class="text-center mb-4">
+        <span class="section-eyebrow">Recomendación Personalizada</span>
+        <h2 class="section-title">¿Qué lente es ideal para ti?</h2>
+        <p class="text-muted mt-2" style="max-width:480px;margin:.5rem auto 0;">Responde 3 preguntas y te recomendamos el modelo perfecto para tu estilo de vida.</p>
+    </div>
+    <div class="quiz-section">
+        <div class="quiz-progress-bar">
+            <div class="quiz-progress-fill" id="quizProgress" style="width:0%"></div>
+        </div>
+        <div id="quizStepLabel" style="font-size:.8rem;color:var(--c-muted);margin-bottom:1rem;">Pregunta 1 de 3</div>
+ 
+        <!-- Paso 1 -->
+        <div class="quiz-step active" id="quizStep1">
+            <div class="quiz-q">¿Para qué usarás tus lentes principalmente?</div>
+            <div class="quiz-options">
+                <button class="quiz-opt" onclick="quizSelect(1,'trabajo')" data-val="trabajo">
+                    <span class="quiz-opt-icon">💻</span> Trabajo en computadora (oficina / home office)
+                </button>
+                <button class="quiz-opt" onclick="quizSelect(1,'sol')" data-val="sol">
+                    <span class="quiz-opt-icon">☀️</span> Actividades al aire libre y protección solar
+                </button>
+                <button class="quiz-opt" onclick="quizSelect(1,'medida')" data-val="medida">
+                    <span class="quiz-opt-icon">👁️</span> Corrección visual (tengo receta médica)
+                </button>
+                <button class="quiz-opt" onclick="quizSelect(1,'estilo')" data-val="estilo">
+                    <span class="quiz-opt-icon">✨</span> Moda y complemento de estilo personal
+                </button>
+            </div>
+        </div>
+ 
+        <!-- Paso 2 -->
+        <div class="quiz-step" id="quizStep2">
+            <div class="quiz-q">¿Cómo describes tu estilo personal?</div>
+            <div class="quiz-options">
+                <button class="quiz-opt" onclick="quizSelect(2,'clasico')" data-val="clasico">
+                    <span class="quiz-opt-icon">🎩</span> Clásico y elegante — prefiero lo sobrio
+                </button>
+                <button class="quiz-opt" onclick="quizSelect(2,'moderno')" data-val="moderno">
+                    <span class="quiz-opt-icon">🔥</span> Moderno y atrevido — me gustan las tendencias
+                </button>
+                <button class="quiz-opt" onclick="quizSelect(2,'sport')" data-val="sport">
+                    <span class="quiz-opt-icon">🏃</span> Deportivo y activo — priorizo la resistencia
+                </button>
+                <button class="quiz-opt" onclick="quizSelect(2,'casual')" data-val="casual">
+                    <span class="quiz-opt-icon">😎</span> Casual y relajado — busco comodidad
+                </button>
+            </div>
+        </div>
+ 
+        <!-- Paso 3 -->
+        <div class="quiz-step" id="quizStep3">
+            <div class="quiz-q">¿Cuál es tu presupuesto aproximado?</div>
+            <div class="quiz-options">
+                <button class="quiz-opt" onclick="quizSelect(3,'bajo')" data-val="bajo">
+                    <span class="quiz-opt-icon">💰</span> Hasta S/ 150 — busco buena relación precio/calidad
+                </button>
+                <button class="quiz-opt" onclick="quizSelect(3,'medio')" data-val="medio">
+                    <span class="quiz-opt-icon">💎</span> S/ 150 – S/ 220 — calidad con estilo
+                </button>
+                <button class="quiz-opt" onclick="quizSelect(3,'alto')" data-val="alto">
+                    <span class="quiz-opt-icon">👑</span> Más de S/ 220 — quiero lo mejor del catálogo
+                </button>
+            </div>
+        </div>
+ 
+        <!-- Resultado -->
+        <div class="quiz-result" id="quizResult">
+            <div class="quiz-result-badge" id="quizResultBadge">Tu resultado</div>
+            <img id="quizResultImg" src="" alt="Producto recomendado" class="quiz-result-img">
+            <div class="quiz-result-title" id="quizResultTitle">Modelo Recomendado</div>
+            <div class="quiz-result-desc" id="quizResultDesc">Descripción</div>
+            <div class="d-flex gap-2 justify-content-center flex-wrap">
+                <button class="btn-ocean" onclick="aplicarFiltroQuiz()">
+                    <i class="bi bi-search"></i> Ver modelos similares
+                </button>
+                <button class="btn-ghost" onclick="resetQuiz()">
+                    <i class="bi bi-arrow-counterclockwise"></i> Repetir quiz
+                </button>
+            </div>
+        </div>
+    </div>
+    </section>
+
     <!-- NOSOTROS -->
     <section id="nosotros" class="my-5 py-5" style="border-top:1px solid var(--c-border);">
         <div class="row align-items-center g-5">
@@ -471,6 +796,72 @@
             </div>
         </div>
     </section>
+     <!-- FAQ INTERACTIVO -->
+        <section class="my-5 reveal" id="faq-section">
+            <div class="text-center mb-4">
+        <span class="section-eyebrow">Preguntas Frecuentes</span>
+        <h2 class="section-title">¿Tienes dudas?</h2>
+        </div>
+        <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    ¿Puedo hacer mis lentes con mi receta médica?
+                    <span class="faq-icon"><i class="bi bi-plus"></i></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Sí. En Floany Visión contamos con laboratorio propio certificado. Solo sube tu receta en la sección correspondiente o tráela directamente a nuestra tienda en San Juan de Lurigancho. Fabricamos cristales monofocales, bifocales y progresivos con los mejores materiales.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    ¿Cuánto tiempo demora la fabricación de mis lentes?
+                    <span class="faq-icon"><i class="bi bi-plus"></i></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Los lentes de medida estándar están listos en 24 a 48 horas hábiles. Los lentes progresivos o con tratamientos especiales pueden tomar entre 3 y 5 días. Te notificamos por WhatsApp cuando estén listos.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    ¿Hacen delivery a domicilio?
+                    <span class="faq-icon"><i class="bi bi-plus"></i></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Sí, realizamos delivery el mismo día dentro de San Juan de Lurigancho. Para otros distritos de Lima coordinamos el envío por courier. Puedes elegir la modalidad al momento de hacer tu pedido.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    ¿Qué métodos de pago aceptan?
+                    <span class="faq-icon"><i class="bi bi-plus"></i></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Aceptamos Yape, Plin, transferencia bancaria y pago contraentrega. Para pedidos por delivery, el pago se coordina directamente por WhatsApp antes del despacho.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    ¿Los lentes tienen garantía?
+                    <span class="faq-icon"><i class="bi bi-plus"></i></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Todos nuestros productos cuentan con garantía de laboratorio. Si presentas algún defecto de fabricación en los primeros 30 días, lo reparamos o reemplazamos sin costo adicional.</p>
+                </div>
+                </div>
+             <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    ¿Puedo probarme las monturas antes de comprar?
+                    <span class="faq-icon"><i class="bi bi-plus"></i></span>
+                    </button>
+                    <div class="faq-answer">
+                    <p>Por supuesto. Te invitamos a visitar nuestra tienda en Av. Las Flores de Primavera 1060, SJL. Nuestros especialistas te asesoran para elegir la montura ideal según la forma de tu rostro y tus necesidades visuales.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </main>
 
 <!-- UBICACIÓN -->
@@ -711,6 +1102,12 @@
 
 <!-- Toast -->
 <div class="toast-floany" id="toastMsg"><i class="bi bi-check-circle-fill text-success"></i><span id="toastTxt"></span></div>
+
+<!-- BOTÓN VOLVER ARRIBA -->
+<!-- Pegar justo ANTES del cierre del </body> -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Volver arriba">
+    <i class="bi bi-arrow-up"></i>
+</button>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>

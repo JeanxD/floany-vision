@@ -407,8 +407,214 @@
     function initObserver(){ if(!window.IntersectionObserver) return; const obs=new IntersectionObserver(entries=>entries.forEach(e=>{ if(e.isIntersecting){e.target.style.animation='fadeUp .5s ease both';obs.unobserve(e.target);} }),{threshold:0.1}); document.querySelectorAll('.prod-card,.testi-card,.face-card,.cat-banner').forEach(el=>obs.observe(el)); }
 
     // ── INIT ──
-    function init(){ buildHero(); initTheme(); initAuth(); initBot(); initUpload(); initClock(); loadCart(); fetchProductos(); initObserver(); }
+    function init(){ buildHero(); initTheme(); initAuth(); initBot(); initUpload(); initClock(); loadCart(); fetchProductos(); initObserver();initCountdown();initCounters();initBackToTop();initReveal(); }
     if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
     else init();
+
+
+    // ── CUENTA REGRESIVA ──
+    function initCountdown() {
+        const target = new Date();
+        target.setDate(target.getDate() + 7); // 7 días desde hoy
+        target.setHours(23, 59, 59, 0);
+ 
+        function tick() {
+            const now  = new Date();
+            const diff = target - now;
+            if (diff <= 0) { clearInterval(cdInt); return; }
+            const days  = Math.floor(diff / 86400000);
+            const hours = Math.floor((diff % 86400000) / 3600000);
+            const mins  = Math.floor((diff % 3600000)  / 60000);
+            const secs  = Math.floor((diff % 60000)    / 1000);
+            const pad   = n => String(n).padStart(2, '0');
+            const el = id => document.getElementById(id);
+            if(el('cdDays'))  el('cdDays').textContent  = pad(days);
+            if(el('cdHours')) el('cdHours').textContent = pad(hours);
+            if(el('cdMins'))  el('cdMins').textContent  = pad(mins);
+            if(el('cdSecs'))  el('cdSecs').textContent  = pad(secs);
+        }
+        tick();
+        const cdInt = setInterval(tick, 1000);
+    }
+ 
+    // ── CONTADOR ANIMADO ──
+    function initCounters() {
+        const counters = document.querySelectorAll('.stat-number[data-target]');
+        if (!counters.length) return;
+ 
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                const el     = entry.target;
+                const target = parseInt(el.dataset.target);
+                const suffix = el.dataset.suffix || '';
+                const dur    = 2000;
+                const step   = 30;
+                const inc    = target / (dur / step);
+                let current  = 0;
+                obs.unobserve(el);
+                const timer = setInterval(() => {
+                    current += inc;
+                    if (current >= target) {
+                        el.textContent = target + suffix;
+                        clearInterval(timer);
+                    } else {
+                        el.textContent = Math.floor(current) + suffix;
+                    }
+                }, step);
+            });
+        }, { threshold: 0.3 });
+ 
+        counters.forEach(c => obs.observe(c));
+    }
+ 
+    // ── FAQ ──
+    window.toggleFaq = function(btn) {
+        const item = btn.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        // Cerrar todos
+        document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+    };
+ 
+    // ── QUIZ ──
+    const quizAnswers = {};
+    let quizCurrentStep = 1;
+    const quizTotal = 3;
+ 
+    window.quizSelect = function(step, val) {
+        quizAnswers[step] = val;
+        // Marcar opción seleccionada
+        document.querySelectorAll(`#quizStep${step} .quiz-opt`).forEach(b => b.classList.remove('selected'));
+        document.querySelector(`#quizStep${step} [data-val="${val}"]`)?.classList.add('selected');
+ 
+        // Avanzar automáticamente
+        setTimeout(() => {
+            if (step < quizTotal) {
+                quizGoTo(step + 1);
+            } else {
+                showQuizResult();
+            }
+        }, 400);
+    };
+ 
+    function quizGoTo(step) {
+        document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+        document.getElementById(`quizStep${step}`)?.classList.add('active');
+        quizCurrentStep = step;
+        const pct = ((step - 1) / quizTotal) * 100;
+        document.getElementById('quizProgress').style.width = pct + '%';
+        document.getElementById('quizStepLabel').textContent = `Pregunta ${step} de ${quizTotal}`;
+    }
+ 
+    function showQuizResult() {
+        document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+        document.getElementById('quizProgress').style.width = '100%';
+        document.getElementById('quizStepLabel').textContent = '¡Resultado listo!';
+ 
+        const uso    = quizAnswers[1];
+        const estilo = quizAnswers[2];
+        const budget = quizAnswers[3];
+ 
+        // Lógica de recomendación
+        let title, desc, img, badge, filtro;
+ 
+        if (uso === 'sol' || uso === 'estilo') {
+            if (estilo === 'sport') {
+                title  = 'Sport Wrap Pro';
+                desc   = 'Marco envolvente de policarbonato ultra-resistente. Ideal para actividades al aire libre con máxima protección UV400.';
+                img    = 'https://images.unsplash.com/photo-1508463703616-9929f2aa5acd?auto=format&fit=crop&w=400&q=80';
+                badge  = '🏃 Perfecto para ti';
+                filtro = 'Gafas de Sol';
+            } else if (estilo === 'clasico') {
+                title  = 'Aviador Black Edition';
+                desc   = 'Clásico atemporal con lunas polarizadas. Elegante para cualquier ocasión con protección UV400 certificada.';
+                img    = 'https://images.unsplash.com/photo-1625591342274-013866180be8?auto=format&fit=crop&w=400&q=80';
+                badge  = '🎩 Clásico elegante';
+                filtro = 'Gafas de Sol';
+            } else {
+                title  = 'Urban Cateye Rose';
+                desc   = 'Diseño retro cat-eye moderno con estilo propio. El complemento perfecto para tu look cotidiano.';
+                img    = 'https://images.unsplash.com/photo-1583394293214-0b7db83b7b98?auto=format&fit=crop&w=400&q=80';
+                badge  = '✨ Tu estilo, tu montura';
+                filtro = 'Gafas de Sol';
+            }
+        } else if (uso === 'trabajo' || uso === 'medida') {
+            if (budget === 'alto' || estilo === 'clasico') {
+                title  = 'Titanium Round Slim';
+                desc   = 'Montura ultraligera de titanio puro. Sin presión en la nariz, ideal para largas jornadas frente al computador.';
+                img    = 'https://images.unsplash.com/photo-1586984504866-d25e72bb66c7?auto=format&fit=crop&w=400&q=80';
+                badge  = '💎 Alta gama';
+                filtro = 'Lentes de Medida';
+            } else {
+                title  = 'Acetato Flex Square';
+                desc   = 'Marcos cuadrados de acetato flexible con filtro Blue Defense integrado. Ideal para proteger tu visión digital.';
+                img    = 'https://images.unsplash.com/photo-1574258495973-f010dfbb5371?auto=format&fit=crop&w=400&q=80';
+                badge  = '💻 Para tu trabajo';
+                filtro = 'Lentes de Medida';
+            }
+        } else {
+            title  = 'Classic Havana Gold';
+            desc   = 'Diseño clásico havana con patillas doradas. Un ícono de la moda óptica que nunca pasa de moda.';
+            img    = 'https://images.unsplash.com/photo-1591076482161-42ce6da69f67?auto=format&fit=crop&w=400&q=80';
+            badge  = '👑 Top recomendado';
+            filtro = 'Lentes de Medida';
+        }
+ 
+        document.getElementById('quizResultBadge').textContent = badge;
+        document.getElementById('quizResultTitle').textContent = title;
+        document.getElementById('quizResultDesc').textContent  = desc;
+        document.getElementById('quizResultImg').src           = img;
+        document.getElementById('quizResultImg').alt           = title;
+ 
+        // Guardar filtro para el botón
+        window._quizFiltro = filtro;
+        window._quizBusqueda = title.split(' ')[0];
+ 
+        const result = document.getElementById('quizResult');
+        result.classList.add('show');
+    }
+ 
+    window.aplicarFiltroQuiz = function() {
+        STATE.filtro   = window._quizFiltro || 'Todos';
+        STATE.busqueda = '';
+        document.querySelectorAll('.filter-pill').forEach(b => {
+            b.classList.toggle('active', b.dataset.filter === STATE.filtro);
+        });
+        const inp = document.getElementById('searchInput');
+        if (inp) inp.value = '';
+        renderProductos();
+        document.getElementById('catalogo')?.scrollIntoView({ behavior: 'smooth' });
+    };
+ 
+    window.resetQuiz = function() {
+        Object.keys(quizAnswers).forEach(k => delete quizAnswers[k]);
+        quizCurrentStep = 1;
+        document.getElementById('quizResult').classList.remove('show');
+        document.querySelectorAll('.quiz-opt').forEach(b => b.classList.remove('selected'));
+        quizGoTo(1);
+        document.getElementById('quizProgress').style.width = '0%';
+        document.getElementById('quizStepLabel').textContent = 'Pregunta 1 de 3';
+    };
+ 
+    // ── BOTÓN VOLVER ARRIBA ──
+    function initBackToTop() {
+        const btn = document.getElementById('backToTop');
+        if (!btn) return;
+        window.addEventListener('scroll', () => {
+            btn.classList.toggle('visible', window.scrollY > 400);
+        });
+    }
+ 
+    // ── REVEAL SCROLL ──
+    function initReveal() {
+        if (!window.IntersectionObserver) return;
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+            });
+        }, { threshold: 0.08 });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    }
 
 })();
