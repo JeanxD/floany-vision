@@ -289,6 +289,12 @@
         if(!STATE.user){ bootstrap.Modal.getOrCreateInstance(document.getElementById('authModal')).show(); return; }
         const n=STATE.user.nombre||'Usuario';
         document.getElementById('userAvatarBig').textContent=n.charAt(0).toUpperCase();
+        if (STATE.user?.foto) {
+    const av = document.getElementById('userAvatarBig');
+    av.innerHTML = `<img src="${STATE.user.foto}" style="width:72px;height:72px;border-radius:50%;object-fit:cover;" alt="foto">`;
+    av.style.background = 'transparent';
+    av.style.padding = '0';
+}
         document.getElementById('userNameBig').textContent=n;
         document.getElementById('userEmailBig').textContent=STATE.user.correo||'';
         document.getElementById('editNombreUser').value=n;
@@ -726,6 +732,14 @@
     function guardarSesionGoogle(nombre, correo, foto, token) {
         STATE.user = { nombre, correo, foto, token, loginMethod: 'google' };
         localStorage.setItem(CFG.KEY_USER, JSON.stringify(STATE.user));
+          // Actualizar botón navbar con foto
+            const authBtn = document.getElementById('authBtn');
+            if (authBtn && foto) {
+            const imgNav = document.createElement('img');
+            imgNav.src = foto;
+            imgNav.style.cssText = 'width:28px;height:28px;border-radius:50%;object-fit:cover;margin-right:6px;';
+            authBtn.prepend(imgNav);
+}
         window.__userLoggedIn = true;
  
         // Actualizar botón con foto de Google
