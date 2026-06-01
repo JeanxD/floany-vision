@@ -413,7 +413,7 @@
     function initObserver(){ if(!window.IntersectionObserver) return; const obs=new IntersectionObserver(entries=>entries.forEach(e=>{ if(e.isIntersecting){e.target.style.animation='fadeUp .5s ease both';obs.unobserve(e.target);} }),{threshold:0.1}); document.querySelectorAll('.prod-card,.testi-card,.face-card,.cat-banner').forEach(el=>obs.observe(el)); }
 
     // ── INIT ──
-    function init(){ buildHero(); initTheme(); initAuth(); initBot(); initUpload(); initClock(); loadCart(); fetchProductos(); initObserver();initCountdown();initCounters();initBackToTop();initReveal();initGoogleAuth(); }
+    function init(){ buildHero(); initTheme(); initAuth(); initBot(); initUpload(); initClock(); loadCart(); fetchProductos(); initObserver();initCountdown();initCounters();initBackToTop();initReveal();initGoogleAuth();initReviews(); }
     if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
     else init();
 
@@ -763,6 +763,192 @@
             avatar.innerHTML = `<img src="${foto}" class="user-google-photo" alt="${nombre}">`;
             avatar.style.background = 'transparent';
             avatar.style.padding = '0';
+        }
+    }
+    // ── SISTEMA DE RESEÑAS ──
+    const KEY_REVIEWS = 'floany_reviews';
+ 
+    // Reseñas iniciales de muestra
+    const DEFAULT_REVIEWS = [
+        { id: 1, nombre: 'Carlos Mendoza', producto: 'Floany Visión', rating: 5, texto: 'Excelente atención en San Juan de Lurigancho. Subí mi receta médica, me cotizaron súper rápido por WhatsApp y el producto superó mis expectativas.', fecha: '2026-05-15', verificado: true },
+        { id: 2, nombre: 'Ana Lucía Solano', producto: 'Aviador Black Edition', rating: 5, texto: 'Mis gafas de sol polarizadas quedaron increíbles. La web es muy profesional y el proceso de pedido es súper fácil.', fecha: '2026-05-18', verificado: true },
+        { id: 3, nombre: 'Jorge Torres', producto: 'Acetato Flex Square', rating: 4, texto: 'Muy buena opción de pago contraentrega. La montura llegó el mismo día. Muy recomendado.', fecha: '2026-05-20', verificado: true },
+        { id: 4, nombre: 'María Quispe', producto: 'Titanium Round Slim', rating: 5, texto: 'Los lentes de titanio son increíblemente ligeros. No siento ningún peso. Vale cada sol.', fecha: '2026-05-22', verificado: false },
+        { id: 5, nombre: 'Luis Herrera', producto: 'Floany Visión', rating: 4, texto: 'Buena atención y productos de calidad. El chatbot me ayudó a encontrar el modelo ideal para mi rostro.', fecha: '2026-05-24', verificado: false },
+    ];
+ 
+    const RATING_LABELS = { 1: 'Malo 😞', 2: 'Regular 😐', 3: 'Bueno 🙂', 4: 'Muy bueno 😊', 5: 'Excelente ⭐' };
+ 
+    function getReviews() {
+        try {
+            const saved = localStorage.getItem(KEY_REVIEWS);
+            return saved ? JSON.parse(saved) : DEFAULT_REVIEWS;
+        } catch { return DEFAULT_REVIEWS; }
+    }
+ 
+    function saveReviews(reviews) {
+        localStorage.setItem(KEY_REVIEWS, JSON.stringify(reviews));
+    }
+ 
+    function formatDate(dateStr) {
+        const d = new Date(dateStr);
+        return d.toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+ 
+    function starsHTML(rating, size = '.9rem') {
+        return Array.from({ length: 5 }, (_, i) =>
+            `<i class="bi bi-star${i < rating ? '-fill' : ''}" style="color:${i < rating ? 'var(--c-gold)' : '#ddd'};font-size:${size};"></i>`
+        ).join('');
+    }
+ 
+    let reviewsShown = 3;
+ 
+    function renderReviews() {
+        const reviews = getReviews();
+        const grid = document.getElementById('reviewsGrid');
+        const empty = document.getElementById('reviewsEmpty');
+        const loadMore = document.getElementById('loadMoreWrap');
+        if (!grid) return;
+ 
+        // Estadísticas
+        updateRatingStats(reviews);
+ 
+        if (!reviews.length) {
+            grid.innerHTML = '';
+            empty.style.display = 'block';
+            loadMore.style.display = 'none';
+            return;
+        }
+        empty.style.display = 'none';
+ 
+        const visible = reviews.slice(0, reviewsShown);
+        grid.innerHTML = visible.map(r => `
+            <div class="col-md-6 col-lg-4">
+                <div class="review-card">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <div class="review-avatar">${r.nombre.charAt(0).toUpperCase()}</div>
+                        <div>
+                            <div class="review-author">
+                                ${r.nombre}
+                                ${r.verificado ? '<i class="bi bi-patch-check-fill text-primary ms-1" style="font-size:.8rem;" title="Compra verificada"></i>' : ''}
+                            </div>
+                            <div class="review-date">${formatDate(r.fecha)}</div>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-1 mb-2">${starsHTML(r.rating)}</div>
+                    <p class="review-text">"${r.texto}"</p>
+                    ${r.producto !== 'Floany Visión' ? `<span class="review-product-tag"><i class="bi bi-eyeglasses me-1"></i>${r.producto}</span>` : ''}
+                </div>
+            </div>
+        `).join('');
+ 
+        loadMore.style.display = reviews.length > reviewsShown ? 'block' : 'none';
+    }
+ 
+    function updateRatingStats(reviews) {
+        if (!reviews.length) return;
+        const avg = (reviews.reduce((a, r) => a + r.rating, 0) / reviews.length).toFixed(1);
+        const countEl = document.getElementById('ratingCount');
+        const avgEl   = document.getElementById('ratingAvg');
+        const bigEl   = document.getElementById('ratingStarsBig');
+        if (avgEl)   avgEl.textContent   = avg;
+        if (countEl) countEl.textContent = `Basado en ${reviews.length} reseña${reviews.length !== 1 ? 's' : ''}`;
+        if (bigEl)   bigEl.innerHTML     = starsHTML(Math.round(parseFloat(avg)), '1.2rem');
+ 
+        // Barras de distribución
+        for (let s = 1; s <= 5; s++) {
+            const count = reviews.filter(r => r.rating === s).length;
+            const pct   = Math.round((count / reviews.length) * 100);
+            const bar   = document.getElementById(`bar${s}`);
+            const pctEl = document.getElementById(`pct${s}`);
+            if (bar)   bar.style.width     = pct + '%';
+            if (pctEl) pctEl.textContent   = pct + '%';
+        }
+    }
+ 
+    window.mostrarMasResenas = function() {
+        reviewsShown += 3;
+        renderReviews();
+    };
+ 
+    // ── MODAL DE RESEÑA ──
+    window.abrirModalResena = function() {
+        // Poblar select de productos
+        const select = document.getElementById('reviewProducto');
+        if (select && STATE.productos.length) {
+            select.innerHTML = '<option value="">Reseña general de Floany Visión</option>' +
+                STATE.productos.map(p => `<option value="${p.nombre}">${p.nombre}</option>`).join('');
+        }
+        // Pre-llenar nombre si está logueado
+        const nombreInput = document.getElementById('reviewNombre');
+        if (nombreInput && STATE.user) nombreInput.value = STATE.user.nombre || '';
+ 
+        document.getElementById('reviewModal').classList.add('open');
+    };
+ 
+    window.cerrarModalResena = function() {
+        document.getElementById('reviewModal').classList.remove('open');
+        // Limpiar form
+        document.getElementById('reviewTexto').value = '';
+        document.getElementById('reviewError').style.display = 'none';
+        document.getElementById('charCount').textContent = '0';
+        document.querySelectorAll('#starRating input').forEach(i => i.checked = false);
+        document.getElementById('ratingLabel').textContent = '';
+    };
+ 
+    window.enviarResena = function() {
+        const nombre  = document.getElementById('reviewNombre').value.trim();
+        const texto   = document.getElementById('reviewTexto').value.trim();
+        const rating  = parseInt(document.querySelector('#starRating input:checked')?.value || 0);
+        const producto = document.getElementById('reviewProducto').value || 'Floany Visión';
+        const errEl   = document.getElementById('reviewError');
+ 
+        if (!nombre) { errEl.textContent = 'Por favor ingresa tu nombre.'; errEl.style.display = 'block'; return; }
+        if (!rating) { errEl.textContent = 'Por favor selecciona una calificación.'; errEl.style.display = 'block'; return; }
+        if (!texto || texto.length < 10) { errEl.textContent = 'El comentario debe tener al menos 10 caracteres.'; errEl.style.display = 'block'; return; }
+ 
+        errEl.style.display = 'none';
+ 
+        const reviews = getReviews();
+        const nueva = {
+            id: Date.now(),
+            nombre,
+            producto,
+            rating,
+            texto,
+            fecha: new Date().toISOString().split('T')[0],
+            verificado: !!STATE.user,
+        };
+        reviews.unshift(nueva);
+        saveReviews(reviews);
+        reviewsShown = Math.max(reviewsShown, 3);
+        renderReviews();
+        cerrarModalResena();
+        toast('¡Gracias por tu reseña! ⭐');
+    };
+ 
+    // Contador de caracteres
+    document.getElementById('reviewTexto')?.addEventListener('input', function() {
+        document.getElementById('charCount').textContent = this.value.length;
+    });
+ 
+    // Label de estrellas
+    document.querySelectorAll('#starRating input').forEach(input => {
+        input.addEventListener('change', function() {
+            document.getElementById('ratingLabel').textContent = RATING_LABELS[this.value] || '';
+        });
+    });
+ 
+    // Cerrar al hacer clic fuera
+    document.getElementById('reviewModal')?.addEventListener('click', function(e) {
+        if (e.target === this) cerrarModalResena();
+    });
+ 
+    function initReviews() {
+        renderReviews();
+        // Si no hay reseñas guardadas, guardar las default
+        if (!localStorage.getItem(KEY_REVIEWS)) {
+            saveReviews(DEFAULT_REVIEWS);
         }
     }
 

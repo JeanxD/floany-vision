@@ -505,6 +505,272 @@ body.dark .btn-google { background: var(--c-card); }
     width: 32px; height: 32px; border-radius: 50%;
     object-fit: cover; border: 2px solid var(--c-ocean);
 }
+/* Navbar móvil */
+@media (max-width: 991px) {
+    .navbar-floany { height: auto; padding: .6rem 0; }
+    #navMain {
+        background: var(--c-paper);
+        border-top: 1px solid var(--c-border);
+        padding: .75rem 0;
+        margin-top: .5rem;
+    }
+    body.dark #navMain { background: var(--c-card); }
+    .nav-link-f { display: block; padding: .55rem 1rem !important; font-size: .95rem; }
+    .nav-link-f::after { display: none; }
+    .navbar-floany .d-flex.align-items-center {
+        justify-content: center;
+        padding: .5rem 0;
+        border-top: 1px solid var(--c-border);
+        margin-top: .5rem;
+        gap: .75rem !important;
+    }
+    .btn-ghost { font-size: .82rem; padding: .45rem 1rem; }
+}
+ 
+/* Hero móvil */
+@media (max-width: 768px) {
+    .hero-slide { padding: 1.8rem 1.2rem; min-height: 320px; }
+    .hero-title { font-size: 1.6rem !important; }
+    .hero-sub { font-size: .85rem; margin-bottom: 1.2rem; }
+    .hero-img-wrap { display: none; } /* Ocultar imagen en móvil muy pequeño */
+    .hero-badge { font-size: .7rem; }
+    .heroSwiper { border-radius: 16px; }
+}
+ 
+@media (max-width: 480px) {
+    .hero-slide { min-height: 260px; padding: 1.5rem 1rem; }
+    .hero-title { font-size: 1.4rem !important; }
+}
+ 
+/* Catálogo móvil */
+@media (max-width: 576px) {
+    .prod-card { border-radius: 16px; }
+    .prod-name { font-size: 1rem; }
+    .prod-price { font-size: 1.3rem; }
+    .prod-footer { padding: .7rem 1rem; }
+    .btn-add { font-size: .78rem; padding: .45rem; }
+ 
+    /* Filtros scrolleables en móvil */
+    #filterGroup {
+        flex-wrap: nowrap !important;
+        overflow-x: auto;
+        padding-bottom: .5rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    #filterGroup::-webkit-scrollbar { display: none; }
+    .filter-pill { white-space: nowrap; flex-shrink: 0; }
+ 
+    /* Buscador full width */
+    #searchInput { max-width: 100% !important; width: 100%; }
+}
+ 
+/* Categorías móvil */
+@media (max-width: 767px) {
+    .cat-banner { height: 200px; }
+    .cat-overlay h4 { font-size: 1.2rem; }
+    .cat-overlay p { display: none; }
+}
+ 
+/* Probador móvil */
+@media (max-width: 576px) {
+    .face-card { padding: 1.2rem 1rem; }
+    .face-icon { font-size: 1.8rem; }
+    .face-title { font-size: 1rem; }
+    .face-sub { font-size: .75rem; }
+}
+ 
+/* Contador stats móvil */
+@media (max-width: 576px) {
+    .stats-section { padding: 2rem 1rem; }
+    .stat-number { font-size: 2rem !important; }
+    .stat-desc { font-size: .78rem; }
+}
+ 
+/* Banner promo móvil */
+@media (max-width: 767px) {
+    .promo-banner { flex-direction: column; text-align: center; padding: 1.5rem 1rem; }
+    .countdown-wrap { justify-content: center; }
+    .countdown-box { min-width: 54px; padding: .6rem .75rem; }
+    .countdown-num { font-size: 1.5rem; }
+    .promo-title { font-size: 1.3rem; }
+}
+ 
+/* Modal usuario móvil */
+@media (max-width: 576px) {
+    .user-modal-box { border-radius: 20px; max-height: 95vh; }
+    .user-tab { font-size: .75rem; padding: .35rem .7rem; }
+    .user-stats-row { gap: .5rem; }
+    .user-stat-num { font-size: 1.3rem; }
+}
+ 
+/* Modal detalle móvil */
+@media (max-width: 767px) {
+    .modal-lg { margin: .5rem; }
+    .det-img-wrap { aspect-ratio: 16/9; }
+}
+ 
+/* FAQ móvil */
+@media (max-width: 576px) {
+    .faq-question { font-size: .88rem; padding: .9rem 1rem; }
+}
+ 
+/* Quiz móvil */
+@media (max-width: 576px) {
+    .quiz-section { padding: 1.25rem; }
+    .quiz-q { font-size: 1.15rem; }
+    .quiz-opt { font-size: .85rem; padding: .7rem 1rem; }
+}
+ 
+/* Botones flotantes móvil — evitar superposición */
+@media (max-width: 576px) {
+    #botContainer { bottom: 16px; right: 16px; }
+    .wapp-float { bottom: 80px; right: 16px; width: 44px; height: 44px; font-size: 1.3rem; }
+    .back-to-top { bottom: 140px; right: 16px; }
+    .toast-floany { left: 12px; right: 12px; bottom: 16px; }
+}
+ 
+/* Footer móvil */
+@media (max-width: 576px) {
+    .footer-wrap { padding: 2.5rem 0 1.5rem; }
+}
+ 
+/* ── SISTEMA DE RESEÑAS ── */
+ 
+/* Sección de reseñas */
+.reviews-section { margin: 3rem 0; }
+ 
+/* Card de reseña */
+.review-card {
+    background: var(--c-card);
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-md);
+    padding: 1.4rem;
+    box-shadow: var(--sh-sm);
+    height: 100%;
+    position: relative;
+    transition: transform .2s, box-shadow .2s;
+}
+.review-card:hover { transform: translateY(-3px); box-shadow: var(--sh-md); }
+ 
+/* Estrellas interactivas */
+.star-rating {
+    display: flex; gap: 4px; cursor: pointer;
+    flex-direction: row-reverse; justify-content: flex-end;
+}
+.star-rating input { display: none; }
+.star-rating label {
+    font-size: 1.6rem; color: #ddd; cursor: pointer;
+    transition: color .15s, transform .15s;
+    line-height: 1;
+}
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label { color: var(--c-gold); }
+.star-rating label:hover { transform: scale(1.2); }
+ 
+/* Estrellas de display (solo lectura) */
+.stars-display { display: flex; gap: 2px; }
+.star-filled { color: var(--c-gold); font-size: .9rem; }
+.star-empty  { color: #ddd; font-size: .9rem; }
+ 
+/* Avatar de reseña */
+.review-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--c-ocean), var(--c-ocean-dk));
+    color: #fff; font-family: var(--ff-display); font-size: 1.1rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.review-author { font-weight: 600; font-size: .9rem; color: var(--c-text); }
+.review-date   { font-size: .75rem; color: var(--c-muted); }
+.review-text   { font-size: .88rem; color: var(--c-muted); font-style: italic; margin: .75rem 0 0; line-height: 1.6; }
+.review-product-tag {
+    display: inline-block; background: var(--c-sky);
+    color: var(--c-ocean); font-size: .72rem; font-weight: 600;
+    border-radius: 50px; padding: .2rem .75rem; margin-top: .6rem;
+}
+ 
+/* Barra de calificación promedio */
+.rating-summary {
+    background: var(--c-mist); border-radius: var(--r-md);
+    padding: 1.5rem; text-align: center; margin-bottom: 1.5rem;
+}
+body.dark .rating-summary { background: rgba(255,255,255,.05); }
+.rating-big {
+    font-family: var(--ff-display); font-size: 3.5rem; font-weight: 700;
+    color: var(--c-ocean); line-height: 1;
+}
+.rating-stars-big { font-size: 1.4rem; margin: .4rem 0; }
+.rating-count { font-size: .82rem; color: var(--c-muted); }
+ 
+/* Barras de distribución */
+.rating-bar-row { display: flex; align-items: center; gap: .6rem; margin-bottom: .4rem; font-size: .8rem; }
+.rating-bar-track { flex: 1; height: 6px; background: var(--c-border); border-radius: 50px; overflow: hidden; }
+.rating-bar-fill  { height: 100%; background: var(--c-gold); border-radius: 50px; transition: width .8s ease; }
+ 
+/* Modal de escribir reseña */
+.review-modal-overlay {
+    position: fixed; inset: 0; background: rgba(12,31,44,.55);
+    backdrop-filter: blur(6px); z-index: 3500;
+    display: flex; align-items: center; justify-content: center; padding: 1rem;
+    opacity: 0; visibility: hidden; transition: all .3s;
+}
+.review-modal-overlay.open { opacity: 1; visibility: visible; }
+.review-modal-box {
+    background: var(--c-paper); border-radius: 24px;
+    width: 100%; max-width: 480px; padding: 1.8rem;
+    box-shadow: var(--sh-lg); border: 1px solid var(--c-border);
+    transform: translateY(20px) scale(.97);
+    transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+body.dark .review-modal-box { background: var(--c-card); }
+.review-modal-overlay.open .review-modal-box { transform: none; }
+.review-modal-title { font-family: var(--ff-display); font-size: 1.5rem; font-weight: 700; margin-bottom: 1.2rem; }
+.review-textarea {
+    width: 100%; padding: .75rem 1rem;
+    border: 1.5px solid var(--c-border); border-radius: 12px;
+    font-family: var(--ff-body); font-size: .9rem; color: var(--c-text);
+    background: var(--c-paper); resize: vertical; min-height: 100px;
+    outline: none; transition: border .2s;
+}
+body.dark .review-textarea { background: var(--c-card); color: var(--c-text); }
+.review-textarea:focus { border-color: var(--c-ocean); }
+.review-name-input {
+    width: 100%; padding: .6rem .9rem;
+    border: 1.5px solid var(--c-border); border-radius: 12px;
+    font-family: var(--ff-body); font-size: .9rem; color: var(--c-text);
+    background: var(--c-paper); outline: none; transition: border .2s;
+    margin-bottom: .75rem;
+}
+body.dark .review-name-input { background: var(--c-card); color: var(--c-text); }
+.review-name-input:focus { border-color: var(--c-ocean); }
+ 
+/* Botón escribir reseña en producto */
+.btn-review {
+    background: transparent; border: 1.5px solid var(--c-gold);
+    color: var(--c-gold); border-radius: 50px;
+    padding: .4rem 1rem; font-size: .78rem; font-weight: 600;
+    cursor: pointer; transition: all .2s;
+    display: inline-flex; align-items: center; gap: 5px;
+}
+.btn-review:hover { background: var(--c-gold); color: var(--c-ink); }
+ 
+/* Tabs de reseñas en modal detalle */
+.review-tabs { display: flex; border-bottom: 1px solid var(--c-border); margin-bottom: 1rem; }
+.review-tab {
+    padding: .5rem 1rem; font-size: .85rem; font-weight: 500;
+    color: var(--c-muted); cursor: pointer; border: none;
+    background: none; border-bottom: 2px solid transparent;
+    transition: all .2s;
+}
+.review-tab.active { color: var(--c-ocean); border-bottom-color: var(--c-ocean); }
+ 
+/* Mini reseñas en modal detalle */
+.mini-review {
+    padding: .75rem 0; border-bottom: 1px solid var(--c-border);
+    font-size: .84rem;
+}
+.mini-review:last-child { border-bottom: none; }
 
     </style>
 </head>
@@ -727,6 +993,57 @@ body.dark .btn-google { background: var(--c-card); }
             <div class="col-md-4"><div class="testi-card"><div class="star-row">★★★★★</div><p class="testi-text">"Muy buena opción de pago contraentrega. Compré una montura para computadora y llegó el mismo día. ¡Totalmente recomendado!"</p><div class="testi-author">Jorge Luis Torres · Cliente verificado</div></div></div>
         </div>
     </section>
+    <!-- ════════════════════════════════════════════════════════
+     SECCIÓN DE RESEÑAS — Pegar después de testimonios en <main>
+════════════════════════════════════════════════════════ -->
+<section class="reviews-section reveal" id="resenas">
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+        <div>
+            <span class="section-eyebrow">Opiniones Verificadas</span>
+            <h2 class="section-title">Reseñas de Clientes</h2>
+        </div>
+        <button class="btn-review" onclick="abrirModalResena()">
+            <i class="bi bi-pencil-square"></i> Escribir Reseña
+        </button>
+    </div>
+ 
+    <!-- Resumen de calificaciones -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="rating-summary">
+                <div class="rating-big" id="ratingAvg">4.8</div>
+                <div class="rating-stars-big" id="ratingStarsBig">⭐⭐⭐⭐⭐</div>
+                <div class="rating-count" id="ratingCount">Basado en 0 reseñas</div>
+                <button class="btn-ocean mt-3 justify-content-center w-100" style="border-radius:12px;font-size:.85rem;" onclick="abrirModalResena()">
+                    <i class="bi bi-star"></i> Calificar
+                </button>
+            </div>
+            <!-- Distribución por estrellas -->
+            <div id="ratingBars">
+                <div class="rating-bar-row"><span>5⭐</span><div class="rating-bar-track"><div class="rating-bar-fill" id="bar5" style="width:0%"></div></div><span id="pct5">0%</span></div>
+                <div class="rating-bar-row"><span>4⭐</span><div class="rating-bar-track"><div class="rating-bar-fill" id="bar4" style="width:0%"></div></div><span id="pct4">0%</span></div>
+                <div class="rating-bar-row"><span>3⭐</span><div class="rating-bar-track"><div class="rating-bar-fill" id="bar3" style="width:0%"></div></div><span id="pct3">0%</span></div>
+                <div class="rating-bar-row"><span>2⭐</span><div class="rating-bar-track"><div class="rating-bar-fill" id="bar2" style="width:0%"></div></div><span id="pct2">0%</span></div>
+                <div class="rating-bar-row"><span>1⭐</span><div class="rating-bar-track"><div class="rating-bar-fill" id="bar1" style="width:0%"></div></div><span id="pct1">0%</span></div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <!-- Grid de reseñas -->
+            <div class="row g-3" id="reviewsGrid">
+                <!-- JS dinámico -->
+            </div>
+            <div class="text-center mt-3" id="reviewsEmpty" style="display:none;">
+                <i class="bi bi-star text-muted" style="font-size:2.5rem;"></i>
+                <p class="text-muted mt-2">Sé el primero en dejar una reseña</p>
+            </div>
+            <div class="text-center mt-3" id="loadMoreWrap" style="display:none;">
+                <button class="btn-ghost" onclick="mostrarMasResenas()">
+                    <i class="bi bi-plus-circle"></i> Ver más reseñas
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
 
     <!-- QUIZ DE RECOMENDACIÓN -->
     <section class="reveal" id="quiz-section">
@@ -1173,5 +1490,59 @@ body.dark .btn-google { background: var(--c-card); }
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="script.js?v=4"></script>
+
+<div class="review-modal-overlay" id="reviewModal">
+    <div class="review-modal-box">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="review-modal-title">Escribir Reseña</div>
+            <button class="btn-detail" onclick="cerrarModalResena()"><i class="bi bi-x-lg"></i></button>
+        </div>
+ 
+        <!-- Seleccionar producto -->
+        <div class="mb-3">
+            <label style="font-size:.82rem;font-weight:600;color:var(--c-muted);display:block;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.06em;">Producto (opcional)</label>
+            <select id="reviewProducto" class="form-select" style="border-radius:12px;font-size:.88rem;">
+                <option value="">Reseña general de Floany Visión</option>
+            </select>
+        </div>
+ 
+        <!-- Nombre -->
+        <div class="mb-3">
+            <label style="font-size:.82rem;font-weight:600;color:var(--c-muted);display:block;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.06em;">Tu Nombre</label>
+            <input type="text" id="reviewNombre" class="review-name-input" placeholder="Ej: Carlos M." maxlength="40">
+        </div>
+ 
+        <!-- Calificación con estrellas -->
+        <div class="mb-3">
+            <label style="font-size:.82rem;font-weight:600;color:var(--c-muted);display:block;margin-bottom:.6rem;text-transform:uppercase;letter-spacing:.06em;">Calificación</label>
+            <div class="star-rating" id="starRating">
+                <input type="radio" id="s5" name="rating" value="5"><label for="s5" title="Excelente">★</label>
+                <input type="radio" id="s4" name="rating" value="4"><label for="s4" title="Muy bueno">★</label>
+                <input type="radio" id="s3" name="rating" value="3"><label for="s3" title="Bueno">★</label>
+                <input type="radio" id="s2" name="rating" value="2"><label for="s2" title="Regular">★</label>
+                <input type="radio" id="s1" name="rating" value="1"><label for="s1" title="Malo">★</label>
+            </div>
+            <div id="ratingLabel" style="font-size:.8rem;color:var(--c-muted);margin-top:.4rem;height:1.2em;"></div>
+        </div>
+ 
+        <!-- Comentario -->
+        <div class="mb-4">
+            <label style="font-size:.82rem;font-weight:600;color:var(--c-muted);display:block;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.06em;">Tu Comentario</label>
+            <textarea id="reviewTexto" class="review-textarea" placeholder="Cuéntanos tu experiencia con Floany Visión..." maxlength="400"></textarea>
+            <div style="font-size:.75rem;color:var(--c-muted);text-align:right;margin-top:.25rem;"><span id="charCount">0</span>/400</div>
+        </div>
+ 
+        <div id="reviewError" class="text-danger small mb-2" style="display:none;"></div>
+ 
+        <div class="d-flex gap-2">
+            <button class="btn-ocean flex-fill py-2 justify-content-center" style="border-radius:12px;" onclick="enviarResena()">
+                <i class="bi bi-send"></i> Publicar Reseña
+            </button>
+            <button class="btn-ghost py-2 px-3" style="border-radius:12px;" onclick="cerrarModalResena()">
+                Cancelar
+            </button>
+        </div>
+    </div>
+</div>
 </body>
 </html>
