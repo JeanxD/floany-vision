@@ -13,17 +13,42 @@
     <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet">
     
     <style>
-        :root {
-            --c-ink:#0c1f2c; --c-ink-2:#1e3446; --c-mist:#f4f1ec; --c-paper:#fdfaf6;
-            --c-gold:#c9a96e; --c-gold-lt:#e8d9be; --c-ocean:#1a6b8a; --c-ocean-dk:#0e4d64;
-            --c-sky:#d0eaf5; --c-text:#1c2e3a; --c-muted:#5a7080; --c-border:rgba(12,31,44,0.10);
-            --c-card:#ffffff; --c-whatsapp:#25D366;
-            --r-sm:12px; --r-md:20px; --r-lg:32px;
-            --sh-sm:0 4px 24px rgba(12,31,44,0.06); --sh-md:0 12px 40px rgba(12,31,44,0.12); --sh-lg:0 24px 60px rgba(12,31,44,0.18);
-            --ff-display:'Cormorant Garamond',serif; --ff-body:'DM Sans',sans-serif;
-            --nav-h:68px;
-        }
-        body.dark { --c-ink:#f0ece5; --c-mist:#131f29; --c-paper:#0e1a23; --c-text:#dce8f0; --c-muted:#7fa0b3; --c-border:rgba(255,255,255,0.09); --c-card:#162330; --sh-sm:0 4px 24px rgba(0,0,0,0.35); --sh-md:0 12px 40px rgba(0,0,0,0.45); }
+:root {
+    --c-ink:       #0a1628;
+    --c-ink-2:     #0f2240;
+    --c-mist:      #f0f4f8;
+    --c-paper:     #fafcff;
+    --c-gold:      #f59e0b;
+    --c-gold-lt:   #fde68a;
+    --c-ocean:     #0ea5e9;
+    --c-ocean-dk:  #0369a1;
+    --c-sky:       #e0f2fe;
+    --c-text:      #0f172a;
+    --c-muted:     #475569;
+    --c-border:    rgba(15,34,64,0.10);
+    --c-card:      #ffffff;
+    --c-whatsapp:  #25D366;
+    --c-accent:    #8b5cf6;
+    --r-sm:12px; --r-md:20px; --r-lg:32px;
+    --sh-sm:0 4px 24px rgba(14,165,233,0.06); 
+    --sh-md:0 12px 40px rgba(14,165,233,0.14); 
+    --sh-lg:0 24px 60px rgba(14,165,233,0.20);
+    --ff-display:'Cormorant Garamond',serif; 
+    --ff-body:'DM Sans',sans-serif;
+    --nav-h:68px;
+}
+body.dark { 
+    --c-ink:#e2e8f0; 
+    --c-mist:#0f172a; 
+    --c-paper:#020817; 
+    --c-text:#e2e8f0; 
+    --c-muted:#94a3b8; 
+    --c-border:rgba(255,255,255,0.08); 
+    --c-card:#0f172a; 
+    --sh-sm:0 4px 24px rgba(0,0,0,0.4); 
+    --sh-md:0 12px 40px rgba(0,0,0,0.5); 
+}
+*/
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
         html{scroll-behavior:smooth;}
         body{font-family:var(--ff-body);background:var(--c-paper);color:var(--c-text);font-size:15px;line-height:1.65;transition:background .35s,color .35s;overflow-x:hidden;}
@@ -772,6 +797,49 @@ body.dark .review-name-input { background: var(--c-card); color: var(--c-text); 
 }
 .mini-review:last-child { border-bottom: none; }
 
+── CSS CUPONES ──
+.coupon-wrap {
+    display: flex; gap: .5rem; margin: .75rem 0;
+}
+.coupon-input {
+    flex: 1; padding: .55rem .9rem;
+    border: 1.5px solid var(--c-border); border-radius: 12px;
+    font-family: var(--ff-body); font-size: .88rem;
+    color: var(--c-text); background: var(--c-paper);
+    outline: none; transition: border .2s;
+    text-transform: uppercase; letter-spacing: .05em;
+}
+.coupon-input:focus { border-color: var(--c-ocean); }
+body.dark .coupon-input { background: var(--c-card); color: var(--c-text); }
+.coupon-btn {
+    background: var(--c-ocean); color: #fff; border: none;
+    border-radius: 12px; padding: .55rem 1rem;
+    font-size: .82rem; font-weight: 600; cursor: pointer;
+    transition: background .2s; white-space: nowrap;
+}
+.coupon-btn:hover { background: var(--c-ocean-dk); }
+.coupon-applied {
+    background: #d1fae5; color: #065f46;
+    border: 1px solid #6ee7b7; border-radius: 10px;
+    padding: .5rem .9rem; font-size: .82rem; font-weight: 600;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: .5rem;
+}
+body.dark .coupon-applied { background: rgba(16,185,129,.15); color: #6ee7b7; }
+.coupon-remove {
+    background: none; border: none; color: #065f46;
+    cursor: pointer; font-size: 1rem; padding: 0;
+    transition: color .2s;
+}
+.coupon-remove:hover { color: #dc2626; }
+.discount-line {
+    display: flex; justify-content: space-between;
+    font-size: .85rem; color: #059669; font-weight: 600;
+    padding: .3rem 0; border-bottom: 1px dashed var(--c-border);
+    margin-bottom: .5rem;
+}
+
+
     </style>
 </head>
 <body>
@@ -796,9 +864,20 @@ body.dark .review-name-input { background: var(--c-card); color: var(--c-text); 
                 <li class="nav-item"><a class="nav-link-f" href="#nosotros">Nosotros</a></li>
                 <li class="nav-item"><a class="nav-link-f" href="#ubicacion">Ubicación</a></li>
             </ul>
+            
+<div id="couponAppliedBar" style="display:none;" class="coupon-applied">
+    <span><i class="bi bi-tag-fill me-1"></i><span id="couponAppliedName"></span> — <span id="couponAppliedDesc"></span></span>
+    <button class="coupon-remove" onclick="quitarCupon()" title="Quitar cupón"><i class="bi bi-x-circle-fill"></i></button>
+</div>
+<div class="coupon-wrap" id="couponWrap">
+    <input type="text" class="coupon-input" id="couponInput" placeholder="CÓDIGO DESCUENTO" maxlength="20">
+    <button class="coupon-btn" onclick="aplicarCupon()"><i class="bi bi-tag me-1"></i>Aplicar</button>
+</div>
             <div class="d-flex align-items-center gap-2">
                 <button id="themeBtn" class="btn-detail" title="Cambiar tema"><i class="bi bi-moon-stars" id="themeIcon"></i></button>
                 <button class="btn-detail position-relative" id="cartBtn" data-bs-toggle="modal" data-bs-target="#cartModal" title="Ver carrito">
+                    
+
                     <i class="bi bi-bag-heart"></i>
                     <span id="cartBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill" style="background:var(--c-gold);color:var(--c-ink);font-size:.62rem;display:none;">0</span>
                 </button>
