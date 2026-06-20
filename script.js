@@ -951,5 +951,98 @@
             saveReviews(DEFAULT_REVIEWS);
         }
     }
+ 
+    // ── SISTEMA DE CUPONES ──
+    const CUPONES = {
+        'FLOANY10':  { descuento: 10, tipo: 'porcentaje', desc: '10% de descuento' },
+        'FLOANY20':  { descuento: 20, tipo: 'porcentaje', desc: '20% de descuento' },
+        'BIENVENIDO':{ descuento: 15, tipo: 'porcentaje', desc: '15% bienvenida' },
+        'SJLEYE':    { descuento: 30, tipo: 'fijo',       desc: 'S/ 30 de descuento' },
+        'VISION5':   { descuento: 5,  tipo: 'fijo',       desc: 'S/ 5 de descuento' },
+        'GRATIS':    { descuento: 100, tipo: 'porcentaje', desc: '100% descuento especial' },
+    };
+ 
+    let cuponActivo = null;
+ 
+    window.aplicarCupon = function() {
+        const input = document.getElementById('couponInput');
+        const codigo = (input?.value || '').trim().toUpperCase();
+        if (!codigo) { toast('Ingresa un código de cupón'); return; }
+ 
+        const cupon = CUPONES[codigo];
+        if (!cupon) { toast('❌ Cupón inválido o expirado'); input.classList.add('border-danger'); setTimeout(()=>input.classList.remove('border-danger'),1500); return; }
+ 
+        cuponActivo = { codigo, ...cupon };
+ 
+        // Mostrar barra de cupón aplicado
+        document.getElementById('couponAppliedName').textContent = codigo;
+        document.getElementById('couponAppliedDesc').textContent = cupon.desc;
+        document.getElementById('couponAppliedBar').style.display = 'flex';
+        document.getElementById('couponWrap').style.display = 'none';
+ 
+        toast(`✅ Cupón ${codigo} aplicado — ${cupon.desc}`);
+        renderCart();
+    };
+ 
+    window.quitarCupon = function() {
+        cuponActivo = null;
+        document.getElementById('couponAppliedBar').style.display = 'none';
+        document.getElementById('couponWrap').style.display = 'flex';
+        const input = document.getElementById('couponInput');
+        if (input) input.value = '';
+        toast('Cupón removido');
+        renderCart();
+    };
+ 
+    // IMPORTANTE: Reemplaza la función renderCart() existente con esta versión
+    // que incluye el cálculo del descuento:
+    function renderCart(){
+        const c=document.getElementById('cartItems');
+        if(!c) return;
+        if(!STATE.cart.length){
+            c.innerHTML=`<div class="text-center py-4 text-muted"><i class="bi bi-bag-x" style="font-size:2.5rem;"></i><p class="mt-2 small">Tu carrito está vacío</p></div>`;
+            document.getElementById('cartTotal').textContent='S/ 0.00';
+            // Limpiar descuento si está vacío
+            const discLine = document.getElementById('discountLine');
+            if (discLine) discLine.style.display = 'none';
+            return;
+        }
+        let subtotal=0;
+        c.innerHTML=STATE.cart.map(it=>{ const s=it.precio*it.qty; subtotal+=s; return `<div class="cart-item"><div class="cart-qty-badge">${it.qty}</div><div style="flex:1;min-width:0;"><div class="cart-item-name text-truncate">${it.nombre}</div><div style="font-size:.76rem;color:var(--c-muted);">S/ ${it.precio.toFixed(2)} c/u</div></div><div class="cart-item-price">S/ ${s.toFixed(2)}</div><button class="cart-remove" onclick="eliminarItem(${it.id})"><i class="bi bi-x-circle-fill"></i></button></div>`; }).join('');
+ 
+        // Calcular descuento
+        let descuento = 0;
+        let totalFinal = subtotal;
+ 
+        if (cuponActivo) {
+            if (cuponActivo.tipo === 'porcentaje') {
+                descuento = (subtotal * cuponActivo.descuento) / 100;
+            } else {
+                descuento = Math.min(cuponActivo.descuento, subtotal);
+            }
+            totalFinal = Math.max(0, subtotal - descuento);
+        }
+ 
+        // Mostrar línea de descuento
+        let discLine = document.getElementById('discountLine');
+        if (!discLine) {
+            discLine = document.createElement('div');
+            discLine.id = 'discountLine';
+            discLine.className = 'discount-line';
+            document.getElementById('cartTotal').parentElement.insertAdjacentElement('beforebegin', discLine);
+        }
+        if (cuponActivo && descuento > 0) {
+            discLine.style.display = 'flex';
+            discLine.innerHTML = `<span><i class="bi bi-tag-fill me-1"></i>Descuento (${cuponActivo.codigo})</span><span>-S/ ${descuento.toFixed(2)}</span>`;
+        } else {
+            discLine.style.display = 'none';
+        }
+ 
+        document.getElementById('cartTotal').textContent=`S/ ${totalFinal.toFixed(2)}`;
+ 
+        // Guardar total con descuento para el checkout
+        STATE._totalConDescuento = totalFinal;
+        STATE._descuentoAplicado = descuento;
+    }
 
 })();
